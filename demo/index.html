@@ -1,0 +1,464 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
+       More info: h5bp.com/b/378 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>JAFW - jQuery Ajax FrameWork</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+
+  <!-- CSS: implied media=all -->
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/default.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.base.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery.ui.theme.css">
+  <!-- end CSS-->
+
+  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+  <!-- Syntaxhighlighter -->
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shAutoloader.js"></script>
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shBrushXml.js"></script>
+  <script type="text/javascript" src="../syntaxhighlighter_3.0.83/scripts/shBrushCss.js"></script>
+  <link href="../syntaxhighlighter_3.0.83/styles/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="../syntaxhighlighter_3.0.83/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+  <div id="container">
+    <header>
+      JAFW / jQuery Ajax FrameWork
+    </header>
+    <div id="main" role="main" class="main">
+      <div class="jafw-click">
+        <a data-target="content" href="jafw-load.html">load</a> |
+        <a data-target="content" href="jafw-click.html">click</a> |
+        change |
+        keyup |
+        pageshow |
+        ckeditor |
+        sortable |
+        datepicker |
+        tabs |
+        accordion |
+        autocomplete |
+        googlemap |
+        editinplace |
+        badge |
+        endless |
+        serverpush |
+        modal |
+        submit |
+        required-field |
+        required-alert |
+        submit-in-progress
+      </div>
+
+      <hr>
+      <div id="content">
+	<h1>JAFW - jQuery Ajax FrameWork</h1>
+
+	<div class="jafw-accordion">
+
+	  <h3><a href="#">Intro</a></h3>
+	  <div>
+	    <ul>
+	      <li><a target="_blank" href="http://www.w3.org/TR/DOM-Level-2-Core/introduction.html">What is the DOM?</a></li>
+	      <li><a target="_blank" href="http://www.w3.org/wiki/Handling_events_with_JavaScript">Handling events with javascript</a></li>
+	      <li><a target="_blank" href="http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614/">DOM level 3 events</a></li>	    
+	      <li><a target="_blank" href="http://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks">Comparison of javascript frameworks</a></li>
+	      <li><a target="_blank" href="http://trends.builtwith.com/javascript">Javascript trends</a></li>
+	      <li><a target="_blank" href="http://wijmo.com/demo/explore/?showall=true">Example of widgets</a></li>
+	      <li><a target="_blank" href="http://jquery.com/">jQuery</a></li>
+	      <li><a target="_blank" href="http://jqueryui.com/">jQuery UI</a></li>	    
+	    </ul>
+	  </div>
+
+	  <h3><a href="#">The Challenge</a></h3>
+	  <div>
+	    <dl>
+	      <dt>Inline javascript is a mess!</dt>
+	      <dd>
+<pre class="brush: js; html-script: true">
+<button onclick="$('#window_1').load('./ajax/hello_world.html');">Click me</button>
+<div id="window_1"></div>
+</pre>
+              </dd>
+
+	      <dt>It works, but it's still bad</dt>
+	      <dd>
+		<button onclick="$('#window_1').load('./ajax/hello_world.html');">Click me</button>
+		<div class="jafw-window" id="window_1"></div>
+	      </dd>
+
+	      <dt>This is better, but still not optimal</dt>
+	      <dd>
+<pre class="brush: js; html-script: true">
+<button id="button_1">Click me</button>
+<div id="window_1"></div>
+...page content...
+
+&lt;script&gt;
+jQuery(document).ready(function($) {
+    $('#button_1').bind({
+        click: function (event) {
+            event.stopPropagation();
+            var el = $(event.target);
+            el.load('./ajax/hello_world.html');
+        }
+    });
+});
+&lt;/script&gt;
+
+</pre>
+              </dd>
+	    
+	      <dt>Why is inline javascript bad?</dt>
+	      <dd>
+		<ul>
+		  <li>HTML file size</li>
+		  <li>Lack of caching</li>
+		  <li>Poor accessibility</li>
+		  <li>Difficult code maintenance. Cut'n paste is always bad!</li>
+		  <li>Difficult to keep track of all events => Bad performance</li>
+		  <li>Lack of flexibility</li>
+		  <li>Hard/not possible to use dipatching</li>
+		</ul>
+	      </dd>
+	    
+	      <dt>Event</dt>
+	      <dd>
+		<ul>
+		  <li>Events are propagating upwards in the DOM. We call this bubbling up. To stop this use: event.stopPropagation();</li>
+		  <li>Some elements has default events attached. To stop this. Use: event.preventDefault();</li>
+		  <li>It's always good to know your DOM :-)</li>
+		</ul>
+	      </dd>
+	    
+	      <dt>Event queue</dt>
+	      <dd>
+		Most of the events are asynchronous. But still has to line up in the queue for processing.
+	      </dd>
+
+	    </dl>
+	  </div>
+	
+	
+	  <h3><a href="#">The Solution</a></h3>
+	  <div>
+	    <dl>
+	      <dt>Write unobtrusive javascript</dt>
+	      <dd>
+		<ul>
+		  <li>Try to make added behavior degrade gracefully.</li>
+		  <li>Use a for links, button for buttons and form for forms.</li>
+		</ul>
+	      </dd>
+
+	      <dt>Keep your HTML clean</dt>
+	      <dd>
+		<ul>
+		  <li>No javascript or CSS is allowed inside the HTML.</li>
+		  <li>Never!</li>
+		</ul>
+	      </dd>
+	    
+	      <dt>Put the links to the javscripts at the bottom</dt>
+	      <dd>
+		<ul>
+		  <li>Faster page loading.</li>
+		</ul>
+	      </dd>
+	    
+	      <dt>Write plugins</dt>
+	      <dd>
+		<ul>
+		  <li>Object oriented</li>
+		  <li>Reuseable</li>
+		  <li>Easy to maintain</li>
+		  <li>All javascript in one place</li>
+		  <li>Fast loading</li>
+		</ul>
+	      </dd>
+
+	      <dt>Make valid HTML</dt>
+	      <dd>
+		<ul>
+		  <li>Avoid quirks mode</li>
+		</ul>
+	      </dd>
+
+	    </dl>
+	  </div>
+
+
+	  <h3><a href="#">Example</a></h3>
+	  <div>
+	    <dl>
+	      <dt>Complete example</dt>
+	      <dd>
+<pre class="brush: js; highlight: [9,10,15]; html-script: true">
+&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  <title>JAFW / click</title>
+  <link rel="stylesheet" href="css/default.css">
+&lt;/head&gt;
+&lt;body&gt;
+
+  <button class="jafw-click" data-url="./ajax/hello_world.html" data-target="window_1">Click me</button>
+  <div class="jafw-window" id="window_1"></div>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>  
+  <script src="../js/jafw-0.1.js"></script>
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+              </dd>
+	    </dl>
+	  </div>
+
+	  <h3><a href="#">Boilerplates</a></h3>
+	  <div>
+	    <dl>
+	      <dt>Plugin example</dt>
+	      <dd>
+<pre class="brush: js; html-script: true">
+(function($) {
+    $.fn.jafw = function(method) {
+	// plugin's default options
+	var defaults = {
+            foo   : 'bar',
+	};
+	var delay_function = {};
+        // public methods
+        // to keep the $.fn namespace uncluttered, collect all of the plugin's methods in an object literal and call
+        // them by passing the string name of the method to the plugin
+        //
+        // public methods can be called as
+        // element.pluginName('methodName', arg1, arg2, ... argn)
+        // where "element" is the element the plugin is attached to, "pluginName" is the name of your plugin and
+        // "methodName" is the name of a function available in the "methods" object below; arg1 ... argn are arguments
+        // to be passed to the method
+        //
+        // or, from inside the plugin:
+        // methods.methodName(arg1, arg2, ... argn)
+        // where "methodName" is the name of a function available in the "methods" object below
+        var methods = {
+            // this the constructor method that gets called when the object is created
+            init : function (options) {
+                // the plugin's final properties are the merged default and user-provided properties (if any)
+                // this has the advantage of not polluting the defaults, making them re-usable
+                settings = $.extend({}, defaults, options);
+                // iterate through all the DOM elements we are attaching the plugin to
+                return this.each( function() {
+                    var $this = $(this); // reference to the jQuery version of the current DOM element
+		    var data = $this.data('jafw');
+		    // If the plugin hasn't been initialized yet
+		    if ( !data ) {
+			/* Do more setup stuff here */
+
+		    } else {
+			//alert('alread initialized...' + data.query_string.debug);			
+		    }
+
+                });
+            },
+
+            // a public method. for demonstration purposes only - remove it!
+            foo_public_method : function() {
+                // code goes here
+            }
+        }
+
+        // private methods
+        // these methods can be called only from inside the plugin
+        //
+        // private methods can be called as
+        // helpers.methodName(arg1, arg2, ... argn)
+        // where "methodName" is the name of a function available in the "helpers" object below; arg1 ... argn are
+        // arguments to be passed to the method
+        var helpers = {
+            // a private method. for demonstration purposes only - remove it!
+            foo_private_method: function() {
+                // code goes here
+            }
+        }
+
+        // if a method as the given argument exists
+        if (methods[method]) {
+            // call the respective method
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        // if an object is given as method OR nothing is given as argument
+        } else if (typeof method === 'object' || !method) {
+            // call the initialization method
+            return methods.init.apply(this, arguments);
+        // otherwise
+        } else {
+            // trigger an error
+            $.error( 'Method "' +  method + '" does not exist in jafw plugin!');
+        }
+    }
+
+})(jQuery);
+
+jQuery(document).ready(function($) {
+    // Code using $ as usual goes here.
+    jQuery.fn.exists = function(){return this.length>0;}
+    $(document).jafw();
+});
+
+</pre>
+	      </dd>
+	    </dl>
+	  </div>
+
+
+	
+	  <h3><a href="#">Old depricated stuff</a></h3>
+	  <div>
+
+
+      
+
+      
+      <h2>addHover</h2>
+      <span class="jafw-hover" data-url="ajax/hover.html" data-target="window6" data-param="foo=1" data-delay-class="jafw-window-hover">Hover me 1</span>
+      <span class="jafw-hover" data-url="ajax/hover.html" data-target="window6" data-param="foo=1" data-delay-class="jafw-window-hover" data-delay="3000">Hover me 2 (delay 3)</span>
+      <span class="jafw-hover" data-url="ajax/hover.html" data-target="window6" data-param="foo=1">Hover me 3</span>
+      <div class="jafw-window-hover" id="window6">
+        Window 6
+      </div>
+
+      
+      <h2>addClick</h2>
+      <button class="jafw-click jafw-button" data-url="ajax/click.html" data-target="window2">
+        Click me...
+      </button>
+      <div class="jafw-window jafw-fixedtop" id="window2">
+        Window 2
+      </div>
+      
+      <h2>addClick with class delay</h2>
+      <button class="jafw-click jafw-button" data-url="ajax/click2.html" data-target="window2b" data-delay="3000" data-delay-class="jafw-click-test">
+        Click me...
+      </button>
+      <div class="jafw-window jafw-click-test" id="window2b">
+        Window 2b
+      </div>
+
+
+      <h2>addClick dispatcher</h2>
+      <div class="jafw-click" data-target="window9">
+        <button class="jafw-button" data-url="ajax/click1.html" data-target="window9">
+          Click me 1 (delay)...
+        </button>
+        <button class="jafw-button" data-url="ajax/click2.html">
+          Click me 2...
+        </button>
+        <button class="jafw-button" data-url="ajax/click3.html" data-target="window2">
+          Click me 3...
+        </button>
+	Rest of dispatcher div. Click here to check :)
+      </div>
+      <div class="jafw-click jafw-window" id="window9">
+        Window 9
+      </div>
+
+
+      
+      <h2>addSortable</h2>
+      <div style="float:left; width:300px;">
+        <div class="jafw-sortable" data-url="ajax/sortable.html" id="list_1" data-target="window4">
+          <div id="el_1">Element 1</div>
+          <div id="el_2">Element 2</div>
+          <div id="el_3">Element 3</div>
+          <div id="el_4">Element 4</div>
+        </div>
+      </div>
+      <div style="float:left; width:300px;">
+        <div class="jafw-sortable" data-url="ajax/sortable.html" id="list_2" data-target="window4">
+          <div id="el_5">Element 5</div>
+          <div id="el_6">Element 6</div>
+          <div id="el_7">Element 7</div>
+          <div id="el_8">Element 8</div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="jafw-window" id="window4">
+        Window 4
+      </div>
+
+      <h2>addChange</h2>
+      <input class="jafw-change" data-url="ajax/change.html" data-target="window5" data-param="foo=1">
+      <div class="jafw-window" id="window5">
+        Window 5
+      </div>
+
+
+      <h2>addEndless</h2>
+      <div class="jafw-endless" style="background : #ffe0e0;" data-url="ajax/endless.html">
+	test <br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br />
+      </div>
+
+     
+      
+      <h2>addHover dispatcher</h2> (AVOID THIS!)
+
+
+      <h2>addBottomtip</h2>
+      <div class="jafw-window jafw-bottomtip" data-url="ajax/bottomtip.html"></div>
+
+
+
+      
+        </div>
+      </div>
+    </div>
+      
+<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br />
+      
+    </div>
+    <footer>
+      By sorenso@gmail.com
+    </footer>
+  </div>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>  
+  <script src="../js/jafw-0.1.js"></script>
+  <script src="../js/libs/jquery.dump.js"></script>
+
+  <script type="text/javascript">
+      SyntaxHighlighter.all()
+  </script>
+  
+</body>
+</html>

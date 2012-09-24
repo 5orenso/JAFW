@@ -1,0 +1,114 @@
+body {
+  font-size : 15px;
+}
+
+header {
+  background : #e6e6e6;
+  border-bottom : 1px #c0c0c0 solid;
+  font-weight : bold;
+  min-height : 15px;
+  padding : 5px 10px;
+}
+footer {
+  background : #505050;
+  border-top : 1px #000000 solid;
+  font-weight : bold;
+  min-height : 300px;
+  padding : 5px 10px;
+}
+.main {
+  min-height : 500px;  
+  padding : 20px 80px;
+}
+
+dl dt {
+  border-bottom : 1px #a0a0a0 solid;
+  padding-top : 20px;
+}
+dl dd {
+  padding-top : 10px;
+}
+.jafw-button {
+  margin : 5px;
+}
+.jafw-window {
+  -moz-box-shadow : 0px 0px 10px #000000;
+  -webkit-box-shadow : 0px 0px 10px #000000;
+  box-shadow : 0px 0px 10px #000000;
+  -moz-border-radius : 4px;
+  -webkit-border-radius : 4px;
+  border-radius : 4px;
+  border : 1px #000000 solid;
+  margin : 5px;
+  background : #f6f6f6;
+  min-height : 50px;
+  padding: 5px;
+  width : 95%;
+  overflow : auto;
+}
+.jafw-window-hover {
+  -moz-box-shadow : 0px 0px 3px #000000;
+  -webkit-box-shadow : 0px 0px 3px #000000;
+  box-shadow : 0px 0px 3px #000000;
+  -moz-border-radius : 4px;
+  -webkit-border-radius : 4px;
+  border-radius : 4px;
+  border : 1px #000000 solid;
+  margin : 5px;
+  background : #f6f6f6;
+  min-height : 50px;
+  padding: 5px;
+  position : absolute;
+  width : 200px;
+  overflow : auto;
+}
+
+.jafw-window-hover {
+     -moz-transition: all 0.5s ease-out;  /* FF4+ */
+       -o-transition: all 0.5s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.5s ease-out;  /* Saf3.2+, Chrome */
+          transition: all 0.5s ease-out;
+  opacity:0.0;
+  filter:alpha(opacity=0); /* For IE8 and earlier */)
+}
+.jafw-hover-active,
+.jafw-window-hover-active {
+  opacity:1.0;
+  filter:alpha(opacity=100); /* For IE8 and earlier */)
+  
+}
+
+
+
+.jafw-sortable {
+  -moz-border-radius : 4px;
+  -webkit-border-radius : 4px;
+  border-radius : 4px;
+  border : 3px #d0d0d0 dotted;
+  margin : 5px;
+  padding : 5px;
+}
+.jafw-sortable div {
+  -moz-border-radius : 4px;
+  -webkit-border-radius : 4px;
+  border-radius : 4px;
+  border : 1px #e0e0e0 solid;
+  margin : 5px;
+  padding : 5px;
+}
+
+
+.jafw-click-test {
+     -moz-transition: all 0.5s ease-out;  /* FF4+ */
+       -o-transition: all 0.5s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.5s ease-out;  /* Saf3.2+, Chrome */
+          transition: all 0.5s ease-out;
+  position : fixed;
+  top : 300px;
+  right : -330px;
+  width : 300px;
+}
+.jafw-click-test-active {
+  background : #c0ffc0;
+  right : -30px;
+}

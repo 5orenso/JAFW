@@ -7,6 +7,12 @@
 	var defaults = {
             foo   : 'bar',
 	    debug : 'jafw-debug',
+
+	    tooltip_delay_in     : 500,
+	    tooltip_delay_out    : 500,
+	    tooltip_width        : 250,
+	    tooltip_height       : 70,
+
 	    class_load         : 'jafw-load',
 	    class_click        : 'jafw-click',
 	    class_change       : 'jafw-change',
@@ -24,7 +30,7 @@
 	    class_endless      : 'jafw-endless',
 	    class_serverpush   : 'jafw-serverpush',
 	    class_modal        : 'jafw-modal',
-	    class_hover        : 'jafw-hover',
+	    class_tooltip        : 'jafw-tooltip',
 	    class_submit       : 'jafw-submit',
 
             class_required_field     : 'jafw-required-field',
@@ -175,7 +181,7 @@
 		methods.add_serverpush($this, css_selector);
 
 		methods.add_modal($this, css_selector);
-		methods.add_hover($this, css_selector);
+		methods.add_tooltip($this, css_selector);
 		methods.add_submit($this, css_selector);
 		
 	    },
@@ -1423,74 +1429,138 @@
 
 
 // ------------------
+	    tooltip_set_timer : function ($this, el) {
+		var tooltip = $('#' + el.data('tooltip'));
+		var hide_timer = tooltip.data('tooltip-hide-timer');
+		var show_timer = el.data('tooltip-show-timer');
+		if (settings.debug) methods.debug($(this), el + ' tooltip_set_timer!, hide_timer=' + hide_timer + ', show_timer=' + show_timer, 'action');
+		if (hide_timer) {
+		    clearTimeout(hide_timer);
+		    tooltip.removeData('tooltip-hide-timer');
+		}
+		if (!show_timer) {
+		    var show_timer = setTimeout( function(){ methods.tooltip_show($this, el); el.removeData('tooltip-show-timer'); }, settings.tooltip_delay_in);
+		    el.data('tooltip-show-timer', show_timer);
+		}
+	    },
+	    tooltip_clear_timer : function ($this, el) {
+		var tooltip = $('#' + el.data('tooltip'));
+		var hide_timer = tooltip.data('tooltip-hide-timer');
+		var show_timer = el.data('tooltip-show-timer');
+		if (settings.debug) methods.debug($(this), el + ' tooltip_clear_timer!, hide_timer=, ' + hide_timer + ', show_timer=' + show_timer, 'action');
+		if (show_timer) {
+		    clearTimeout(show_timer);
+		    el.removeData('tooltip-show-timer');
+		}
+		if (!hide_timer) {
+		    var hide_timer = setTimeout( function(){ methods.tooltip_hide($this, el); tooltip.removeData('tooltip-hide-timer'); }, settings.tooltip_delay_out);
+		    tooltip.data('tooltip-hide-timer', hide_timer);
+		}
+	    },
+	    tooltip_show : function ($this, el) {
+		var tooltip = el.data('tooltip') || settings.class_tooltip + '_' + methods.random_number(10000);
+		if ($('#' + tooltip).data('tooltip_is_visible')) {
+		    if (settings.debug) methods.debug($(this), el + ' tooltip_show! ' + tooltip + ', Doing nothing because element is visible. ', 'action');
+		} else {
+		    if (settings.debug) methods.debug($(this), el + ' tooltip_show! ' + tooltip + ', Showing element. ', 'action');
+		    var offset = el.offset();
+		    var h      = el.height();
+		    var w      = el.width();
+		    var url    = el.data('tooltip-url');
+		    var param  = el.data('tooltip-param');
+		    var height = el.data('tooltip-height') || settings.tooltip_height;
+		    var width  = el.data('tooltip-width') || settings.tooltip_width;
+		    // Add offset as params.
+		    var delay       = el.data('tooltip-delay');
+		    var delay_class = el.data('tooltip-delay-class');
 
-	    add_hover : function ($this, css_selector) {
-		if (settings.debug) methods.debug($this, 'add_hover: ' + css_selector + ' .' + settings.class_hover, 'info');
+		    // Setting tooltip id to trigger el.
+		    el.data('tooltip', tooltip);
+		    // Insert window
+		    $('<div class="jafw-tooltip-container" id="' + tooltip + '"><div class="jafw-arrow-up" id="' + tooltip + '-arrow-up"></div><div class="jafw-tooltip-window jafw-tooltip" id="' + tooltip + '-window" data-tooltip="' + tooltip + '"></div></div>').appendTo($('body'));
+		    methods.add_tooltip($this, '#' + tooltip);
+
+		    // Load content into window
+		    if (url) {
+			if (settings.debug) methods.debug($(this), el + ' loading ajax content!, ' + url + ' -> ' + tooltip, 'action');
+			// Run ajax call... 
+			methods.ajax({
+			    url    : url,
+			    param  : param,
+			    target : tooltip + '-window',
+			    delay  : delay,
+			    delay_class : delay_class,
+			    keep_open : 1
+			});
+		    } else {
+			if (settings.debug) methods.debug($(this), el + ' is tooltip but no URL defined.', 'warn');
+		    }
+		    // Set styles of the arrow.
+		    $('#' + tooltip + '-arrow-up').css({
+			'border-left'   : '10px solid transparent',
+			'border-right'  : '10px solid transparent',
+			'border-bottom' : '10px solid #808080',
+			'font-size'     : '0px',
+			'height'        : '0px',
+			'line-height'   : '0px',
+			'margin-left'   : '20px',
+			'width'         : '0px'
+		    });
+		    // Set styles of the container.
+		    $('#' + tooltip + '-window').css({
+			'background' : '#ffffff',
+			'border' : '4px #808080 solid',
+			'border-radius' : '4px',
+			'height' : height + 'px',
+			'overflow' : 'auto',
+			'padding' : '20px',		
+			'width' : width + 'px'
+		    });
+		    // Set styles of the container.
+		    $('#' + tooltip).css({
+			//'box-shadow' : '0px 0px 4px #000000',
+			'display' : 'none',
+			'left' : offset.left,
+			'position' : 'absolute',
+			'top' : offset.top + h,
+			'z-index' : 9999
+		    });
+		    // Show tooltip element.
+		    $('#' + tooltip).show(100);
+		    // Set is visible flag.
+		    $('#' + tooltip).data('tooltip_is_visible', 1);
+		}
+	    },
+	    tooltip_hide : function ($this, el) {
+		var tooltip = $('#' + el.data('tooltip'));
+		// Hide and remove tooltip element if visible.
+		if (tooltip.data('tooltip_is_visible')) {
+		    if (settings.debug) methods.debug($(this), el + ' tooltip_hide! Hiding element., ', 'action');
+		    tooltip.hide(100, 'swing').remove();
+		    // Clear is_visible flag.
+		    tooltip.removeData('tooltip_is_visible');
+		} else {
+		    if (settings.debug) methods.debug($(this), el + ' tooltip_hide! Element is not visible. Doing nothing., ', 'action');
+		}
+	    },
+	    add_tooltip : function ($this, css_selector) {
+		if (settings.debug) methods.debug($this, 'add_tooltip: ' + css_selector + ' .' + settings.class_tooltip, 'info');
 		
-		// Activate hover links.
-		$(css_selector + ' .' + settings.class_hover).bind({
+		// Activate tooltip links.
+		$(css_selector + ' .' + settings.class_tooltip).bind({
 		    mouseenter: function (event) {
 			event.stopPropagation();
 			event.preventDefault();
 			var el = $(this);
-			var offset = el.offset();
-			var height = el.height();
-			var width  = el.width();
-			var url         = el.data('load-url');
-			var param       = el.data('load-param');
-			var height      = el.data('height') || 50;
-			var width       = el.data('width') || 200;
-			// Add offset as params.
-			var delay       = el.data('delay');
-			var delay_class = el.data('delay-class');
-			var hover       = el.data('hover') || settings.class_hover + '_' + methods.random_number(10000);
-
-			// Setting hover id to trigger element.
-			el.attr('data-hover', hover);
-
-			// Insert window
-			$('<div class="jafw-hover_window" id="' + hover + '"></div>').appendTo($('body'));
-
-			// Load content into window
-			if (url) {
-			    if (settings.debug) methods.debug($(this), el + ' is hover!, ' + url + ' -> ' + hover, 'action');
-			    // Run ajax call... 
-			    methods.ajax({
-				url    : url,
-				param  : param,
-				target : hover,
-				delay  : delay,
-				delay_class : delay_class
-			    });
-			} else {
-		    	    if (settings.debug) methods.debug($(this), el + ' is hover but no URL defined.', 'warn');
-			}
-
-			// Set styles of the window.
-			$('#' + hover).css({
-			    'background' : '#ffffff',
-			    'border-radius' : '4px',
-			    'display' : 'none',
-			    'height' : height + 'px',
-			    'left' : offset.left,
-			    'overflow' : 'auto',
-			    'padding' : '20px',
-			    'position' : 'absolute',
-			    'top' : offset.top + height,
-			    'width' : width + 'px',
-			    'z-index' : 9999
-			});
-
-			$('#' + hover).show();
-			
+			methods.tooltip_set_timer($this, el);
+			if (settings.debug) methods.debug($(this), el + ' is mouseenter!, ', 'action');
 		    },
 		    mouseleave: function (event) {
 			event.stopPropagation();
 			event.preventDefault();
 			var el = $(this);
-			var hover = $('#' + el.data('hover'));
-			hover.hide().remove();
-			if (settings.debug) methods.debug($(this), el + ' is mouseleave!, ' + hover, 'action');
+			methods.tooltip_clear_timer($this, el);
+			if (settings.debug) methods.debug($(this), el + ' is mouseleave!, ', 'action');
 		    },
 		    click: function (event) {
 			// What should happend when I click this?

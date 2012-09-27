@@ -74,7 +74,9 @@
 			if (query_string.jdebug) {
 			    settings.debug = settings.debug + query_string.jdebug;
 			    //alert(query_string.jdebug);
-			    $('body').append('<div style="background:#f6f6f6; color: #606060; font-size: 10px; font-family:verdana, arial; padding: 5px; position: fixed; bottom:60px; right:20px; z-index:99999; width:600px; overflow:hidden; -moz-box-shadow: 0px 0px 10px #000000; -webkit-box-shadow: 0px 0px 10px #000000; box-shadow: 0px 0px 10px #000000; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;"><h1>Debug</h1><div style="height: 250px; overflow : auto;" id="' + settings.debug + '"></div></div>');
+			    var height = query_string.jdebug > 2 ? 500 : 250;
+			    var width  = query_string.jdebug > 2 ? 800 : 600;
+			    $('body').append('<div style="background:#f6f6f6; color: #606060; font-size: 10px; font-family:verdana, arial; padding: 5px; position: fixed; bottom:60px; right:20px; z-index:99999; width:' + width + 'px; overflow:hidden; -moz-box-shadow: 0px 0px 10px #000000; -webkit-box-shadow: 0px 0px 10px #000000; box-shadow: 0px 0px 10px #000000; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;"><h1>Debug</h1><div style="height: ' + height + 'px; overflow : auto;" id="' + settings.debug + '"></div></div>');
 			}
 			$this.data('jafw', {
 			    target       : $this,
@@ -189,7 +191,7 @@
 		var eh = 16;
 		var ew = 16;
 		if (action == 'show') {
-		    if (settings.debug) methods.debug(target, 'Show ajax loader.', 'info');
+		    if (settings.debug) methods.debug(target, 'loader: Show ajax loader.', 'info');
 		    if ($('#' + target + '_ajax_loader').length <= 0) {
 			//$('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/tools/wip5b/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:20px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/tools/jafw/ajax-loader.gif" /><div class="clear"></div>').appendTo($('body'));
 			$('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/tools/wip5b/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:5px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/tools/jafw/ajax-loader.gif" /><div class="clear"></div>').prependTo($('#' + target));
@@ -212,7 +214,7 @@
 		    $('#' + target + '_ajax_loader').show();
 		    
 		} else if (action == 'hide') {
-		    if (settings.debug) methods.debug(target, 'Hide ajax loader.', 'info');
+		    if (settings.debug) methods.debug(target, 'loader: Hide ajax loader.', 'info');
 		    $('#' + target + '_ajax_loader').hide();
 		    
 		}
@@ -224,11 +226,11 @@
 		if (Object.prototype.toString.call(opt.param) == "[object Object]") {
 		    //if (jQuery.isPlainObject(opt.param)) {
 		    // if opt.param is an object we have to extend it.
-		    if (settings.debug) methods.debug($(this), 'Ajax param, #' + opt.target + ', ajax input is object. Trying to extend with target.', 'info');
+		    if (settings.debug) methods.debug($(this), 'ajax: Ajax param, #' + opt.target + ', ajax input is object. Trying to extend with target.', 'info');
 		    param = $.extend({}, opt.param, {'target' : opt.target});
 		} else {
 		    // if opt.param is a text string we just append to it.
-		    if (settings.debug) methods.debug($(this), 'Ajax param, #' + opt.target + ', ajax input is plain text. Appending target.', 'info');
+		    if (settings.debug) methods.debug($(this), 'ajax: Ajax param, #' + opt.target + ', ajax input is plain text. Appending target.', 'info');
 		    param = opt.param + '&target=' + opt.target;
 		}
 		$.ajax({
@@ -249,9 +251,9 @@
 		    complete : function (jqXHR, textStatus, options) {
 			if (opt.complete) {
 			    var fn = eval(opt.complete);
-			    if (settings.debug) methods.debug($(this), 'Ajax complete function is present: "' + opt.complete + '" object: ' + fn, 'action');
+			    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + opt.complete + '" object: ' + fn, 'action');
 			    if (jQuery.isFunction(fn)) {
-				if (settings.debug) methods.debug($(this), 'Ajax complete isFunction is true. Running function.', 'action');
+				if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
 				fn(jqXHR, textStatus, options);
 			    }
 			}
@@ -260,7 +262,7 @@
 
 		    success: function(data, textStatus, jqXHR) {
 			var target = $('#' + opt.target);
-			if (settings.debug) methods.debug($(this), 'Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus, 'network');
+			if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width(), 'network');
 			if (jQuery.isFunction(opt.success_before)) {
 			    opt.success_before(data, textStatus, jqXHR);
 			}
@@ -276,7 +278,9 @@
 			    e.remove();
 			}
 			
+			// Hiding loader.
 			if (!opt.loader_hide) methods.loader(opt.target, 'hide');
+			// Inserting data to target.
 			if (opt.append) {
 			    target.append(data);
 			} else if (opt.prepend) {
@@ -284,34 +288,41 @@
 			} else {
 			    target.html(data);
 			}
-			if( target.is(':visible') ) {
+
+			// Checking if this is a hidden element or not.
+			//if( target.is(':hidden') ) {
+			if( target.css('display') == 'none') {
+			    if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success: target is hidden. hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width(), 'info');
 			    // it's visible, do something
-			} else if (opt.load_toggle) {
-			    // Do nothing...
-			} else {
 			    if (!opt.keep_open) {
 				// If object is not visible fade in and fade out after 4 sec.
 				target.fadeIn(300);
-				setTimeout( function () {
+				var fade_out = function () {
 				    target.fadeOut(300);
-				}, 4000);
+				};
+				setTimeout(fade_out, 4000);
 			    } else {
 				target.fadeIn(300);
 			    }
+			} else if (opt.load_toggle) {
+			    // Do nothing...
+			} else {
+			    if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success: target is visible. el: ' + target, 'info');
+			    // The element is visible and no toggle is wanted.
 			}
 
 			if (opt.success_after) {
 			    var fn = eval(opt.success_after);
-			    if (settings.debug) methods.debug($(this), 'Ajax success_after function is present: "' + opt.success_after + '" object: ' + fn, 'action');
+			    if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success_after function is present: "' + opt.success_after + '" object: ' + fn, 'info');
 			    if (jQuery.isFunction(fn)) {
-				if (settings.debug) methods.debug($(this), 'Ajax success_after isFunction is true. Running function.', 'action');
+				if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success_after isFunction is true. Running function.', 'action');
 				fn();//jqXHR, textStatus, options);
 			    }
 			}
 
 			methods.init_actions($(this), '#' + opt.target);
 			if (opt.delay) {
-			    if (settings.debug) methods.debug($(this), 'Ajax success, adding class: ' + opt.delay_class + settings.class_active, 'info');
+			    if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, adding class: ' + opt.delay_class + settings.class_active, 'info');
 			    target.addClass(opt.delay_class + settings.class_active);
 			    setTimeout( function () {
 				target.removeClass(opt.delay_class + settings.class_active)
@@ -324,29 +335,29 @@
 			}
 			if (opt.syntax_highlight) {
 			    if (jQuery.isFunction(target.syntaxHighlight)) {
-				if (settings.debug) methods.debug($(this), 'Ajax success, syntax highlighting', 'action');
+				if (settings.debug) methods.debug($(this), 'ajax: success: syntax highlighting', 'action');
 				target.syntaxHighlight();
 			    }
 			}
 
 		    },
 		    error: function (jqXHR, textStatus, errorThrown) {
-			if (settings.debug) methods.debug($(this), 'Ajax error, ' + opt.url + ' -> ' + opt.target + ' : ' + textStatus, 'err');
+			if (settings.debug) methods.debug($(this), 'ajax: error: ' + opt.url + ' -> ' + opt.target + ' : ' + textStatus, 'err');
 			if (!opt.loader_hide) methods.loader(opt.target, 'hide');
 			$('#' + opt.target).html(textStatus);
 		    },
 		    statusCode: {
 			301: function() {
-			    if (settings.debug) methods.debug($(this), 'Ajax 301:' + opt.target + ' -> Redirect!', 'err');
+			    if (settings.debug) methods.debug($(this), 'ajax: 301: ' + opt.target + ' -> Redirect!', 'err');
 			},
 			302: function() {
-			    if (settings.debug) methods.debug($(this), 'Ajax 302:' + opt.target + ' -> Redirect!', 'err');
+			    if (settings.debug) methods.debug($(this), 'ajax: 302: ' + opt.target + ' -> Redirect!', 'err');
 			},
 			404: function() {
-			    if (settings.debug) methods.debug($(this), 'Ajax 404:' + opt.target + ' -> Page not found!', 'err');
+			    if (settings.debug) methods.debug($(this), 'ajax: 404: ' + opt.target + ' -> Page not found!', 'err');
 			},
 			500: function() {
-			    if (settings.debug) methods.debug($(this), 'Ajax 500:' + opt.target + ' -> Server error!', 'err');
+			    if (settings.debug) methods.debug($(this), 'ajax: 500: ' + opt.target + ' -> Server error!', 'err');
 			}
 		    }
 		});
@@ -367,7 +378,7 @@
 			var delay_class = el.attr('data-delay-class' + cnt);
 			//jQuery.dump(e);
 			if (url) {
-			    if (settings.debug) methods.debug($(this), el + ' is loaded!, ' + url + ' -> ' + target, 'action');
+			    if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded!, ' + url + ' -> ' + target, 'action');
 			    // Run ajax call... 
 			    methods.ajax({
 				url    : url,
@@ -377,7 +388,7 @@
 				delay_class : delay_class
 			    });
 			} else {
-		    	    if (settings.debug) methods.debug($(this), el + ' is loaded but no URL defined.', 'warn');
+		    	    if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded but no URL defined.', 'warn');
 			}
 		    }
 	
@@ -489,7 +500,7 @@
 				    'tagname' : el.prop('tagName'),
 				    'type'    : el.prop('type')
 				});
-				if (settings.debug) methods.debug($(this), event.target + ' is clicked!, ' + url + ' -> #' + target, 'action');
+				if (settings.debug) methods.debug($(this), 'add_click: ' + event.target + ' is clicked!, ' + url + ' -> #' + target, 'action');
 				methods.ajax({
 				    url              : url,
 				    param            : data,
@@ -507,7 +518,7 @@
 				});
 				no_action = 0;
 			    } else {
-				if (settings.debug >= 3) methods.debug($(this), event.target + ' is clicked but no URL defined.', 'warn');
+				if (settings.debug >= 3) methods.debug($(this), 'add_click: ' + event.target + ' is clicked but no URL defined.', 'warn');
 			    }
 			} // for (i=0; i<=5; i++)
 
@@ -536,9 +547,12 @@
 		if (settings.debug) methods.debug($this, 'add_keyup: ' + css_selector + ' .' + settings.class_keyup, 'info');
 		$(css_selector + ' .' + settings.class_keyup).bind({
 		    keyup:  function (event) {
-			var el = $(event.element);
+			var el = $(event.target);
+			console.log(event);
+			if (settings.debug) methods.debug($this, 'add_keyup: ' + css_selector + ' .' + settings.class_keyup + ', keyup fired on el=' + el.attr('id'), 'action');
 			if (!el.attr('id')) el.attr('id', settings.class_keyup + '_' + methods.random_number(10000));
-			methods.delay_function( el.id, function () { methods.on_change(event) }, 800 );
+			var on_change = function () { methods.on_change(event) };
+			methods.delay_function($this, el, on_change, 800 );
 		    }
 		});
 	    },
@@ -550,7 +564,7 @@
 		//$(css_selector + ' .' + settings.class_pageshow).bind({
 		$(document).bind({
 		    'pageshow':  function (event) {
-			var el = $(event.element);
+			var el = $(event.target);
 			if (!el.attr('id')) el.attr('id', settings.class_pageshow + '_' + methods.random_number(10000));
 			methods.init_actions($(this), 'body');
 			//methods.init_actions($(el), '#' + el.id);
@@ -559,18 +573,24 @@
 	    },
 
 
-	    delay_function : function (timer, callback, ms) {
-		clearTimeout(delay_function.timer);
-		delay_function.timer = setTimeout(callback, ms);
+	    delay_function : function ($this, el, callback, ms) {
+		if (settings.debug) methods.debug($this, 'delay_function: id=' + el.attr('id') + ', timer=' + el.data('timer') + ', callback=' + callback + ', ms=' + ms, 'action');
+		clearTimeout( el.data('timer') );
+		var timer = setTimeout(callback, ms);
+		el.data('timer', timer);
 	    },
 
 
 	    on_change : function (event) {
 		//if (event.sender) alert( $(event.sender.element).attr('data-url') );
-		if (event.preventDefault) event.preventDefault();
-		if (event.stopPropagation) event.stopPropagation();
-		//var e  = $(this); //event.target;
 		var el, val;
+		// Have to wrap this due to a bug in IE8.
+                try {
+		    if (event.preventDefault) event.preventDefault();
+		    if (event.stopPropagation) event.stopPropagation();
+		} catch (err) {}
+
+		//var e  = $(this); //event.target;
 		if (event.sender) {
 		    el = $(event.sender.element);
 		    var name = event.sender.name;
@@ -578,8 +598,7 @@
 		    if (edit.getData) {
 			val = escape(edit.getData());
 		    }
-		    if (settings.debug) methods.debug($(this), 'on_change event.sender: ' + event.sender.id + ', getData(): ' + val + ', el:' + el, 'msg');
-
+		    if (settings.debug) methods.debug($(this), 'on_change: event.sender=' + event.sender.id + ', getData(): ' + val + ', el:' + el, 'msg');
 		} else {
 		    el = $(event.target);
 		    val = escape( el.val() ); //methods.html_encode( methods.html_decode(el.val()) );
@@ -604,7 +623,7 @@
 		    if (url) {
 			// Run ajax call... 
 			var data = $.extend({}, methods.query_string(param), {'f' : name, 'value' : val});
-			if (settings.debug) methods.debug($(this), el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
+			if (settings.debug) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
 			methods.ajax({
 			    url    : url,
 			    param  : data, //param + '&f=' + name + '&value=' + val,
@@ -613,7 +632,7 @@
 			    delay_class : delay_class
 			});
 		    } else {
-			if (settings.debug >= 3) methods.debug($(this), el.attr('id') + ' is changed but no URL defined.', 'warn');
+			if (settings.debug >= 3) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed but no URL defined.', 'warn');
 		    }
 		} // for (i=0; i<=5; i++)
 	    },
@@ -652,7 +671,7 @@
 			    //});
 			    if (url) {
 				// Run ajax call... 
-				if (settings.debug) methods.debug($(this), event.target + ' is sorted!, ' + url + ' -> #' + target, 'action');
+				if (settings.debug) methods.debug($(this), 'add_sortable: ' + event.target + ' is sorted!, ' + url + ' -> #' + target, 'action');
 				methods.ajax({
 				    append : append,
 				    url    : url,
@@ -663,7 +682,7 @@
 				    keep_open   : keep_open
 				});
 			    } else {
-				if (settings.debug) methods.debug($(this), event.target + ' is sorted but no URL defined.', 'warn');
+				if (settings.debug) methods.debug($(this), 'add_sortable: ' + event.target + ' is sorted but no URL defined.', 'warn');
 			    }
 			}
 		    });
@@ -919,7 +938,7 @@
 				var delay_class = el.attr('data-delay-class' + cnt);
 				//jQuery.dump(e);
 				if (url) {
-				    if (settings.debug) methods.debug($(this), el + ' is showed!, ' + url + ' -> ' + target, 'action');
+				    if (settings.debug) methods.debug($(this), 'add_tabs: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
 				    // Run ajax call... 
 				    methods.ajax({
 					url    : url,
@@ -929,7 +948,7 @@
 					delay_class : delay_class
 				    });
 				} else {
-		    		    if (settings.debug) methods.debug($(this), el + ' is showed but no URL defined.', 'warn');
+		    		    if (settings.debug) methods.debug($(this), 'add_tabs: ' + el + ' is showed but no URL defined.', 'warn');
 				}
 			    }
 			}
@@ -961,7 +980,7 @@
 				var delay_class = el.attr('data-delay-class' + cnt);
 				//jQuery.dump(e);
 				if (url) {
-				    if (settings.debug) methods.debug($(this), el + ' is showed!, ' + url + ' -> ' + target, 'action');
+				    if (settings.debug) methods.debug($(this), 'add_accordion: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
 				    // Run ajax call... 
 				    methods.ajax({
 					url    : url,
@@ -971,7 +990,7 @@
 					delay_class : delay_class
 				    });
 				} else {
-		    		    if (settings.debug) methods.debug($(this), el + ' is showed but no URL defined.', 'warn');
+		    		    if (settings.debug) methods.debug($(this), 'add_accordion: ' + el + ' is showed but no URL defined.', 'warn');
 				}
 			    }
 			}
@@ -1036,7 +1055,7 @@
 				
 				//jQuery.dump(e);
 				if (url && target) {
-				    if (settings.debug) methods.debug($(this), el + ' is submited!, ' + url + ' -> ' + target, 'action');
+				    if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited!, ' + url + ' -> ' + target, 'action');
 				    // Run ajax call... 
 				    methods.ajax({
 					url    : url,
@@ -1056,7 +1075,7 @@
 					}
 				    });
 				} else {
-		    		    if (settings.debug) methods.debug($(this), el + ' is submited but no URL defined.', 'warn');
+		    		    if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited but no URL defined.', 'warn');
 				}
 			    }
 			} else {
@@ -1107,7 +1126,7 @@
 				    $('#' + append).scrollTop(0);
 				}
 				if (url && target) {
-				    if (settings.debug) methods.debug($(this), e + ' is submited!, ' + url + ' -> ' + target, 'action');
+				    if (settings.debug) methods.debug($(this), 'add_autocomplete: selected: ' + e + ' is submited!, ' + url + ' -> ' + target, 'action');
 				    // Run ajax call... 
 				    methods.ajax({
 					url    : url,
@@ -1117,7 +1136,7 @@
 					delay_class : delay_class
 				    });
 				} else {
-		    		    if (settings.debug) methods.debug($(this), e + ' is submited but no URL defined.', 'warn');
+		    		    if (settings.debug) methods.debug($(this), 'add_autocomplete: selected: ' + e + ' is submited but no URL defined.', 'warn');
 				}
 				return false;
 			    }
@@ -1316,7 +1335,7 @@
 
 			// Load content into window
 			if (url) {
-			    if (settings.debug) methods.debug($(this), el + ' is modal!, url_part[1]=' + url_part[1] + ', ' + url + ' -> ' + modal, 'action');
+			    if (settings.debug) methods.debug($(this), 'add_modal: ' + el + ' is modal!, url_part[1]=' + url_part[1] + ', ' + url + ' -> ' + modal, 'action');
 			    // Run ajax call... 
 			    methods.ajax({
 				url    : url,
@@ -1326,7 +1345,7 @@
 				delay_class : delay_class
 			    });
 			} else {
-		    	    if (settings.debug) methods.debug($(this), el + ' is modal but no URL defined.', 'warn');
+		    	    if (settings.debug) methods.debug($(this), 'add_modal: ' + el + ' is modal but no URL defined.', 'warn');
 			}
 			
 
@@ -1433,7 +1452,7 @@
 		var tooltip = $('#' + el.data('tooltip'));
 		var hide_timer = tooltip.data('tooltip-hide-timer');
 		var show_timer = el.data('tooltip-show-timer');
-		if (settings.debug) methods.debug($(this), el + ' tooltip_set_timer!, hide_timer=' + hide_timer + ', show_timer=' + show_timer, 'action');
+		if (settings.debug) methods.debug($(this), 'tooltip_set_timer: ' + el + ' tooltip_set_timer!, hide_timer=' + hide_timer + ', show_timer=' + show_timer, 'action');
 		if (hide_timer) {
 		    clearTimeout(hide_timer);
 		    tooltip.removeData('tooltip-hide-timer');
@@ -1447,7 +1466,7 @@
 		var tooltip = $('#' + el.data('tooltip'));
 		var hide_timer = tooltip.data('tooltip-hide-timer');
 		var show_timer = el.data('tooltip-show-timer');
-		if (settings.debug) methods.debug($(this), el + ' tooltip_clear_timer!, hide_timer=, ' + hide_timer + ', show_timer=' + show_timer, 'action');
+		if (settings.debug) methods.debug($(this), 'tooltip_clear_timer: ' + el + ' tooltip_clear_timer!, hide_timer=, ' + hide_timer + ', show_timer=' + show_timer, 'action');
 		if (show_timer) {
 		    clearTimeout(show_timer);
 		    el.removeData('tooltip-show-timer');
@@ -1460,9 +1479,9 @@
 	    tooltip_show : function ($this, el) {
 		var tooltip = el.data('tooltip') || settings.class_tooltip + '_' + methods.random_number(10000);
 		if ($('#' + tooltip).data('tooltip_is_visible')) {
-		    if (settings.debug) methods.debug($(this), el + ' tooltip_show! ' + tooltip + ', Doing nothing because element is visible. ', 'action');
+		    if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' tooltip_show! ' + tooltip + ', Doing nothing because element is visible. ', 'action');
 		} else {
-		    if (settings.debug) methods.debug($(this), el + ' tooltip_show! ' + tooltip + ', Showing element. ', 'action');
+		    if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' tooltip_show! ' + tooltip + ', Showing element. ', 'action');
 		    var offset = el.offset();
 		    var h      = el.height();
 		    var w      = el.width();
@@ -1482,7 +1501,7 @@
 
 		    // Load content into window
 		    if (url) {
-			if (settings.debug) methods.debug($(this), el + ' loading ajax content!, ' + url + ' -> ' + tooltip, 'action');
+			if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' loading ajax content!, ' + url + ' -> ' + tooltip, 'action');
 			// Run ajax call... 
 			methods.ajax({
 			    url    : url,
@@ -1493,7 +1512,7 @@
 			    keep_open : 1
 			});
 		    } else {
-			if (settings.debug) methods.debug($(this), el + ' is tooltip but no URL defined.', 'warn');
+			if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' is tooltip but no URL defined.', 'warn');
 		    }
 		    // Set styles of the arrow.
 		    $('#' + tooltip + '-arrow-up').css({
@@ -1535,12 +1554,12 @@
 		var tooltip = $('#' + el.data('tooltip'));
 		// Hide and remove tooltip element if visible.
 		if (tooltip.data('tooltip_is_visible')) {
-		    if (settings.debug) methods.debug($(this), el + ' tooltip_hide! Hiding element., ', 'action');
+		    if (settings.debug) methods.debug($(this), 'tooltip_hide: ' + el + ' tooltip_hide! Hiding element., ', 'action');
 		    tooltip.hide(100, 'swing').remove();
 		    // Clear is_visible flag.
 		    tooltip.removeData('tooltip_is_visible');
 		} else {
-		    if (settings.debug) methods.debug($(this), el + ' tooltip_hide! Element is not visible. Doing nothing., ', 'action');
+		    if (settings.debug) methods.debug($(this), 'tooltip_hide: ' + el + ' tooltip_hide! Element is not visible. Doing nothing., ', 'action');
 		}
 	    },
 	    add_tooltip : function ($this, css_selector) {
@@ -1553,14 +1572,14 @@
 			event.preventDefault();
 			var el = $(this);
 			methods.tooltip_set_timer($this, el);
-			if (settings.debug) methods.debug($(this), el + ' is mouseenter!, ', 'action');
+			if (settings.debug) methods.debug($(this), 'add_tooltip: ' + el + ' is mouseenter!, ', 'action');
 		    },
 		    mouseleave: function (event) {
 			event.stopPropagation();
 			event.preventDefault();
 			var el = $(this);
 			methods.tooltip_clear_timer($this, el);
-			if (settings.debug) methods.debug($(this), el + ' is mouseleave!, ', 'action');
+			if (settings.debug) methods.debug($(this), 'add_tooltip: ' + el + ' is mouseleave!, ', 'action');
 		    },
 		    click: function (event) {
 			// What should happend when I click this?
@@ -1642,7 +1661,7 @@
 
 		//jQuery.dump(e);
 		if (url) {
-		    if (settings.debug) methods.debug($(this), el + ' is serverpush!, ' + url + ' -> ' + target, 'action');
+		    if (settings.debug) methods.debug($(this), 'do_serverpush: ' + el + ' is serverpush!, ' + url + ' -> ' + target, 'action');
 		    // Run ajax call... 
 		    methods.ajax({
 			loader_hide : 1,
@@ -1654,7 +1673,7 @@
 			timeout  : timeout
 		    });
 		} else {
-		    if (settings.debug) methods.debug($(this), el + ' is serverpush but no URL defined.', 'warn');
+		    if (settings.debug) methods.debug($(this), 'do_serverpush: ' + el + ' is serverpush but no URL defined.', 'warn');
 		}
 	    },
 

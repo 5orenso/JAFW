@@ -140,7 +140,7 @@
 			+ ':' + date.getMinutes()
 			+ ':' + date.getSeconds()
 		    if (query_string.jdebug >= 3) {
-			console.log(timestamp + ' : ' + msg);
+			//console.log(timestamp + ' : ' + msg);
 		    }
 
 		    var color = '';
@@ -548,7 +548,7 @@
 		$(css_selector + ' .' + settings.class_keyup).bind({
 		    keyup:  function (event) {
 			var el = $(event.target);
-			console.log(event);
+			//console.log(event);
 			if (settings.debug) methods.debug($this, 'add_keyup: ' + css_selector + ' .' + settings.class_keyup + ', keyup fired on el=' + el.attr('id'), 'action');
 			if (!el.attr('id')) el.attr('id', settings.class_keyup + '_' + methods.random_number(10000));
 			var on_change = function () { methods.on_change(event) };

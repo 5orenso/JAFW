@@ -1,24 +1,25 @@
-      
-      <h1>jafw-</h1>      
+<h1>jafw-change</h1>      
 <code class="highlight">
-&lt;div class="jafw-load" data-load-url="./ajax/hello_world.html" data-param="foo=123&bar=456"&gt;&lt;/div&gt;
+	&lt;input type="email" class="jafw-change" data-url="./ajax/hello_world.html" data-target="window_1"&gt;
+	&lt;div id="window_1"&gt;&lt;/div&gt;
 </code>
-      <br><br>
+<br><br>
 
-      <div class="jafw-accordion">
+<div class="jafw-accordion">
 	<h3><a href="#">Options</a></h3>
 	<div>
-	  <dl>
-	    <dt>data-url</dt>
-	    <dd></dd>
-	    <dt>data-target</dt>
-	    <dd></dd>
-	    <dt>data-param</dt>
-	    <dd></dd>
-	  </dl>
+		<dl>
+			<dt>name</dt>
+			<dd>Name attribute of the tag. This is sent as a param to url.</dd>
+			<dt>data-change-url</dt>
+			<dd></dd>
+
+			<span class="jafw-load" data-load-url="./ajax/jafw-common-options.html"></span>
+		</dl>
 	</div>
 	<h3><a href="#">Demo</a></h3>
 	<div>
-	  <div class="jafw-window jafw-load" data-load-url="./ajax/hello_world.html"></div>
+		<input type="email" class="jafw-change" data-url="./ajax/hello_world.html" data-target="window_1">
+		<div class="jafw-window" id="window_1"></div>
 	</div>
-      </div>
+</div>

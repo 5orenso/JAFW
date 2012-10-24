@@ -250,19 +250,26 @@
 					param = opt.param + '&target=' + opt.target;
 				}
 				$.ajax({
-					url: opt.url,
-					data: param,
-					type: 'POST',
+					url  : opt.url,
+					data : param,
+					type : 'GET',
 					//crossDomain: true,
 					//mimeType : 'text/plain; charset=iso-8859-1',
-					//"application/x-www-form-urlencoded;charset=ISO-8859-15",
 					//contentType: 'application/x-www-form-urlencoded;charset=ISO-8859-1',
+					//
+					// Timeout request in seconds.
+					timeout : opt.timeout,
+					// This event, which is triggered before an Ajax request is started, 
+					// allows you to modify the XMLHttpRequest object (setting additional
+					// headers, if need be.)
 					beforeSend: function (xhr) {
 						//	xhr.overrideMimeType('text/html; charset=ISO-8859-1');
+						// Show loader before we start loading.
 						if (!opt.loader_hide) methods.loader(opt.target, 'show');
 					},
-					//always: function (xhr) {
-					//},
+					// This event is called regardless of if the request was successful, 
+					// or not. You will always receive a complete callback, even for 
+					// synchronous requests.
 					complete : function (jqXHR, textStatus, options) {
 						if (opt.complete) {
 							var fn = eval(opt.complete);
@@ -273,25 +280,46 @@
 							}
 						}
 					},
-					timeout : opt.timeout,
+					// This event is only called if the request was successful (no errors 
+					// from the server, no errors with the data).
 					success: function (data, textStatus, jqXHR) {
 						var target = $('#' + opt.target);
 						if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width(), 'network');
-						if (jQuery.isFunction(opt.success_before)) {
-							opt.success_before(data, textStatus, jqXHR);
+
+						// If function. Then execute it.
+						if (opt.success_before) {
+							var fn = eval(opt.success_before);
+							if (jQuery.isFunction(fn)) {
+								fn(data, textStatus, jqXHR);
+							}
 						}
+
+						// Update timestamp for last data-last-check and data-last-load.
 						if (opt.update_timestamp) {
 							var ts = Math.round((new Date()).getTime() / 1000);
 							var e  = $('#' + opt.update_timestamp);
 							e.data('last-check', ts);
 							e.data('last-load', ts);
 						}
+
+						// Remove element with data-last-(check|update).
 						if (opt.remove) {
 							var e  = $('#' + opt.update_timestamp);
 							e.remove();
-						}	
+						}
+
 						// Hiding loader.
 						if (!opt.loader_hide) methods.loader(opt.target, 'hide');
+
+						// Updating container with query_string parameters from call.
+						var query_string;
+						if (jQuery.isPlainObject(param)) {
+							query_string = JSON.stringify(param);
+						} else {
+							query_string = param;
+						}
+						target.data('input-query-string', query_string);
+
 						// Inserting data to target.
 						if (opt.append) {
 							target.append(data);
@@ -300,12 +328,12 @@
 						} else {
 							target.html(data);
 						}
-	
+
 						// Checking if this is a hidden element or not.
-						//if( target.is(':hidden') ) {
+						// if( target.is(':hidden') ) {
 						if ( target.css('display') == 'none') {
 							if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success: target is hidden. hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width(), 'info');
-							// it's visible, do something
+							// It's visible, do something
 							if (!opt.keep_open) {
 								// If object is not visible fade in and fade out after 4 sec.
 								target.fadeIn(300);
@@ -317,12 +345,14 @@
 								target.fadeIn(300);
 							}
 						} else if (opt.load_toggle) {
-							// Do nothing...
+							// Do nothing..?
+							// TODO: Shouldn't we do something here?
 						} else {
 							if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success: target is visible. el: ' + target, 'info');
 							// The element is visible and no toggle is wanted.
 						}
 	
+						// If function. Then execute it.
 						if (opt.success_after) {
 							var fn = eval(opt.success_after);
 							if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success_after function is present: "' + opt.success_after + '" object: ' + fn, 'info');
@@ -332,19 +362,26 @@
 							}
 						}
 	
+						// Init actions on target
 						methods.init_actions($(this), '#' + opt.target);
+
+						// If delay add opt.delay_class and remove it after opt.delay sec.
 						if (opt.delay) {
 							if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, adding class: ' + opt.delay_class + settings.class_active, 'info');
 							target.addClass(opt.delay_class + settings.class_active);
 							setTimeout( function () {
-							target.removeClass(opt.delay_class + settings.class_active)
+								target.removeClass(opt.delay_class + settings.class_active)
 							}, opt.delay);
 							//.delay(delay).removeClass(delay_class + settings.class_active);
 						}
+
+						// If we shall close the modal window after save. Do it.
 						if (opt.modal_close) {
 							$('.' + settings.class_modal + '_window').hide().remove();
 							$('.' + settings.class_modal + '_mask').hide().remove();
 						}
+
+						// If syntaxhighlight, the check for includes and do it.
 						if (opt.syntax_highlight) {
 							if (jQuery.isFunction(target.syntaxHighlight)) {
 								if (settings.debug) methods.debug($(this), 'ajax: success: syntax highlighting found.', 'action');
@@ -353,8 +390,9 @@
 								if (settings.debug) methods.debug($(this), 'ajax: success: no syntax highlighting found.', 'info');
 							}
 						}
-	
 					},
+					// This event is only called if an error occurred with the request 
+					// (you can never have both an error and a success callback with a request).
 					error: function (jqXHR, textStatus, errorThrown) {
 						if (settings.debug) methods.debug($(this), 'ajax: error: ' + opt.url + ' -> ' + opt.target + ' : ' + textStatus, 'err');
 						if (!opt.loader_hide) methods.loader(opt.target, 'hide');

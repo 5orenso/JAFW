@@ -1,6 +1,9 @@
 JAFW - jQuery Ajax FrameWork
 ==============================
 ---
+An easy to use jQuery framwork to make your HTML 100% separated from the javascript. As a bonus your HTML will also validate :)
+
+This is still work in progress, so please help me with comments, ideas, etc.
 
 Inline javascript is a mess!
 ----------------------------
@@ -22,7 +25,6 @@ This is better, but still not optimal
     	    });
 	    });
 	</script>
-~~~
 
 The Solution!
 -------------

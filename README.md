@@ -22,6 +22,7 @@ This is better, but still not optimal
     	    });
 	    });
 	</script>
+~~~
 
 The Solution!
 -------------
@@ -52,12 +53,12 @@ Write unobtrusive javascript
 
 Keep your HTML clean
 --------------------
-• No javascript or CSS is allowed inside the HTML.
-• Never!
+* No javascript or CSS is allowed inside the HTML.
+* Never!
 
 Put the links to the javscripts at the bottom
 ---------------------------------------------
-• Faster page loading.
+* Faster page loading.
 
 Write plugins
 -------------

@@ -688,13 +688,13 @@
 					var cnt = '';
 					var url         = el.attr('data-url' + cnt);
 					var target      = el.attr('data-target' + cnt) || el.closest('.' + settings.class_sortable).attr('data-target' + cnt);
-					var append      = el.attr('data-target-append' + cnt);
+					var append      = el.attr('data-append' + cnt);
 					var param       = el.attr('data-param' + cnt);
 					var delay       = el.attr('data-delay' + cnt);
 					var keep_open   = el.attr('data-keep-open' + cnt);
 					var delay_class = el.attr('data-delay-class' + cnt);
 					var handle      = el.attr('data-handle' + cnt);
-					var connect     = el.attr('data-connect-with') || settings.class_sortable;
+					var connect     = el.attr('data-connect') || settings.class_sortable;
 			
 					el.sortable({
 						connectWith: '.' + connect,

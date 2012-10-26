@@ -34,8 +34,27 @@ To activate multiple buttons with click dispatcher:
 <div class="jafw-window" id="window_1"></div>
 ```
 
+To activate keyup event on an input field:
+```html
+<input class="jafw-keyup" name="myinput" data-url="./ajax/hello_world.html" data-target="window_1">
+<div class="jafw-window" id="window_1"></div>
+```
 
+To activate change event on an input field:
+```html
+<input type="email" class="jafw-change" name="myinput" data-url="./ajax/hello_world.html" data-target="window_1">
+<div class="jafw-window" id="window_1"></div>
+```
 
-
+To activate sortable lists:
+```html
+<div id="mylist" class="jafw-sortable" data-url="./ajax/hello_world.html" data-param="foo=123&bar=456" data-target="window_1">
+	<div id="el_1">Element 1</div>
+	<div id="el_2">Element 2</div>
+	<div id="el_3">Element 3</div>
+	<div id="el_4">Element 4</div>
+</div>
+<div class="jafw-window" id="window_1"></div>
+```
 
 

@@ -1,6 +1,12 @@
 <h1>jafw-sortable</h1>      
 <code class="highlight">
-	&lt;div class="jafw-sortable" data-sortable-url="./ajax/hello_world.html" data-param="foo=123&bar=456"&gt;&lt;/div&gt;
+	&lt;div id="mylist" class="jafw-sortable" data-url="./ajax/hello_world.html" data-param="foo=123&bar=456" data-target="window_1"&gt;
+		&lt;div id="el_1"&gt;Element 1&lt;/div&gt;
+		&lt;div id="el_2"&gt;Element 2&lt;/div&gt;
+		&lt;div id="el_3"&gt;Element 3&lt;/div&gt;
+		&lt;div id="el_4"&gt;Element 4&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="jafw-window" id="window_1"&gt;&lt;/div&gt;
 </code>
 <br><br>
 
@@ -8,17 +14,23 @@
 	<h3><a href="#">Options</a></h3>
 	<div>
 		<dl>
-			<dt>name</dt>
-			<dd>Name attribute of the tag. This is sent as a param to url.</dd>
-			<dt>data-sortable-url</dt>
-			<dd></dd>
+			<dt>data-handle</dt>
+			<dd>Class name to add as handle. Default undefined.</dd>
+
+			<dt>data-connect</dt>
+			<dd>Class name to make connections to. Defaults to jafw-sortable class.</dd>
 
 			<span class="jafw-load" data-load-url="./ajax/jafw-common-options.html"></span>
 		</dl>
 	</div>
 	<h3><a href="#">Demo</a></h3>
 	<div>
-		<input type="email" class="jafw-sortable" data-url="./ajax/hello_world.html" data-target="window_1">
+		<div id="mylist" class="jafw-sortable" data-url="./ajax/hello_world.html" data-param="foo=123&bar=456" data-target="window_1">
+			<div id="el_1">Element 1</div>
+			<div id="el_2">Element 2</div>
+			<div id="el_3">Element 3</div>
+			<div id="el_4">Element 4</div>
+		</div>
 		<div class="jafw-window" id="window_1"></div>
 	</div>
 </div>

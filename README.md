@@ -4,7 +4,7 @@ An easy to use jQuery framwork to make your HTML 100% separated from the javascr
 
 This is still work in progress, so please help me with comments, ideas, etc.
 
-Demos is available on [my blog](http://litt.no/tools/jafw/demo/index.html).
+Demos are available on [my blog](http://litt.no/tools/jafw/demo/index.html).
 
 Usage
 -----

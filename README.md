@@ -59,4 +59,20 @@ To activate sortable lists:
 <div class="jafw-window" id="window_1"></div>
 ```
 
+To activate tabs:
+```html
+<div class="jafw-tabs">
+	<ul>
+		<li><a href="#tabs-1">Nunc tincidunt</a></li>
+		<li><a href="#tabs-2">Proin dolor</a></li>
+	</ul>
+	<div id="tabs-1" data-url="./ajax/hello_world.html">
+	</div>
+	<div id="tabs-2">
+		<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis.</p>
+	</div>
+</div>
+```
+
+
 

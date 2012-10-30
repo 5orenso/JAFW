@@ -15,7 +15,7 @@ Include these line in the bottom of the html to enable jafw-parsing.
 <script src="../js/jafw.js"></script>
 ```
 
-To load content into container as soon as possible:
+### To load content into container as soon as possible:
 ```html
 <div class="jafw-load" data-url="./ajax/hello_world.html" data-param="foo=bar&gomle=foobar">Loading...</div>
 ```

@@ -15,18 +15,18 @@ Include these line in the bottom of the html to enable jafw-parsing.
 <script src="../js/jafw.js"></script>
 ```
 
-### To load content into container as soon as possible:
+### To load dynamic content into container as soon as possible:
 ```html
 <div class="jafw-load" data-url="./ajax/hello_world.html" data-param="foo=bar&gomle=foobar">Loading...</div>
 ```
 
-To activate on button with click:
+### To activate on button with click:
 ```html
 <button class="jafw-click" data-url="./ajax/hello_world.html" data-target="window_1" data-param="foo=bar&gomle=foobar">Click me</button>
 <div class="jafw-window" id="window_1"></div>
 ```
 
-To activate multiple buttons with click dispatcher:
+### To activate multiple buttons with click dispatcher:
 ```html
 <div class="jafw-click">
 	<button data-url="./ajax/hello_world.html" data-target="window_1" data-param="foo=bar&button=1">Click me 1</button>
@@ -36,19 +36,19 @@ To activate multiple buttons with click dispatcher:
 <div class="jafw-window" id="window_1"></div>
 ```
 
-To activate keyup event on an input field:
+### To activate keyup event on an input field:
 ```html
 <input class="jafw-keyup" name="myinput" data-url="./ajax/hello_world.html" data-target="window_1">
 <div class="jafw-window" id="window_1"></div>
 ```
 
-To activate change event on an input field:
+### To activate change event on an input field:
 ```html
 <input type="email" class="jafw-change" name="myinput" data-url="./ajax/hello_world.html" data-target="window_1">
 <div class="jafw-window" id="window_1"></div>
 ```
 
-To activate sortable lists:
+### To activate sortable lists:
 ```html
 <div id="mylist" class="jafw-sortable" data-url="./ajax/hello_world.html" data-param="foo=123&bar=456" data-target="window_1">
 	<div id="el_1">Element 1</div>
@@ -59,7 +59,7 @@ To activate sortable lists:
 <div class="jafw-window" id="window_1"></div>
 ```
 
-To activate tabs:
+### To activate tabs:
 ```html
 <div class="jafw-tabs">
 	<ul>

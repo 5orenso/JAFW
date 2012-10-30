@@ -1,6 +1,6 @@
-<h1>jafw-xxxxx</h1>      
+<h1>jafw-tabs</h1>      
 <code class="highlight">
-	&lt;div class="jafw-xxxxx" data-xxxxx-url="./ajax/hello_world.html" data-param="foo=123&bar=456"&gt;&lt;/div&gt;
+	&lt;div class="jafw-tabs" data-tabs-url="./ajax/hello_world.html" data-param="foo=123&bar=456"&gt;&lt;/div&gt;
 </code>
 <br><br>
 
@@ -8,9 +8,7 @@
 	<h3><a href="#">Options</a></h3>
 	<div>
 		<dl>
-			<dt>name</dt>
-			<dd>Name attribute of the tag. This is sent as a param to url.</dd>
-			<dt>data-xxxxx-url</dt>
+			<dt></dt>
 			<dd></dd>
 
 			<span class="jafw-load" data-load-url="./ajax/jafw-common-options.html"></span>
@@ -18,7 +16,18 @@
 	</div>
 	<h3><a href="#">Demo</a></h3>
 	<div>
-		<input type="email" class="jafw-xxxxx" data-url="./ajax/hello_world.html" data-target="window_1">
-		<div class="jafw-window" id="window_1"></div>
+
+		<div class="jafw-tabs">
+			<ul>
+				<li><a href="#tabs-1">Nunc tincidunt</a></li>
+				<li><a href="#tabs-2">Proin dolor</a></li>
+			</ul>
+			<div id="tabs-1" data-url="./ajax/hello_world.html">
+			</div>
+			<div id="tabs-2">
+				<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis.</p>
+			</div>
+		</div>
+
 	</div>
 </div>

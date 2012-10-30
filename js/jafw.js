@@ -600,20 +600,6 @@
 			},
 
 
-			add_pageshow : function ($this, css_selector) {
-				if (settings.debug) methods.debug($this, 'add_pageshow: ' + css_selector + ' .' + settings.class_pageshow, 'info');
-				//$(css_selector + ' .' + settings.class_pageshow).bind({
-				$(document).bind({
-					'pageshow':  function (event) {
-						var el = $(event.target);
-						if (!el.attr('id')) el.attr('id', settings.class_pageshow + '_' + methods.random_number(10000));
-						methods.init_actions($(this), 'body');
-						//methods.init_actions($(el), '#' + el.id);
-					}
-				});
-			},
-
-
 			delay_function : function ($this, el, callback, ms) {
 				if (settings.debug) methods.debug($this, 'delay_function: id=' + el.attr('id') + ', timer=' + el.data('timer') + ', callback=' + callback + ', ms=' + ms, 'action');
 				clearTimeout( el.data('timer') );
@@ -680,7 +666,8 @@
 				} // for (i=0; i<=5; i++)
 			},
 
-
+			// TODO:
+			// * Add more options from module: http://api.jqueryui.com/sortable/
 			add_sortable : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_sortable: ' + css_selector + ' .' + settings.class_sortable, 'info');		
 				$(css_selector + ' .' + settings.class_sortable).each( function (index) {
@@ -933,7 +920,9 @@
 				});
 			},
 
-
+			// TODO:
+			// * Add date format.
+			// * Add other params from module: http://api.jqueryui.com/datepicker/
 			add_datepicker : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_datepicker: ' + css_selector + ' .' + settings.class_datepicker, 'info');
 				$(css_selector + ' .' + settings.class_datepicker).each( function (index) {
@@ -1712,7 +1701,18 @@
 			},
 
 		
-
+			add_pageshow : function ($this, css_selector) {
+				if (settings.debug) methods.debug($this, 'add_pageshow: ' + css_selector + ' .' + settings.class_pageshow, 'info');
+				//$(css_selector + ' .' + settings.class_pageshow).bind({
+				$(document).bind({
+					'pageshow':  function (event) {
+						var el = $(event.target);
+						if (!el.attr('id')) el.attr('id', settings.class_pageshow + '_' + methods.random_number(10000));
+						methods.init_actions($(this), 'body');
+						//methods.init_actions($(el), '#' + el.id);
+					}
+				});
+			},
 
 
 

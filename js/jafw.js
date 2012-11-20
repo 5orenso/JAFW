@@ -990,12 +990,13 @@
 					var el = $(this);
 					$(el).accordion({
 						autoHeight : false,
-						change: function (event, ui) {
+						beforeActivate: function (event, ui) {
 							//console.log(event);
 							//console.log(ui);
 							//event.stopPropagation();
 							//event.preventDefault();
-							var el = $(ui.panel);
+							var el = $(ui.newPanel);
+							// console.log(el);
 							for (var i=1; i<=5; i++) {
 								var cnt         = i==1 ? '' : '-'+i;
 								var url         = el.attr('data-url' + cnt);
@@ -1006,7 +1007,7 @@
 								var delay_class = el.attr('data-delay-class' + cnt);
 								//jQuery.dump(e);
 								if (url) {
-									if (settings.debug) methods.debug($(this), 'add_accordion: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
+									if (settings.debug) methods.debug($(this), 'add_accordion: beforeActivate: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
 									// Run ajax call... 
 									methods.ajax({
 										url    : url,
@@ -1016,10 +1017,11 @@
 										delay_class : delay_class
 									});
 								} else {
-									if (settings.debug) methods.debug($(this), 'add_accordion: ' + el + ' is showed but no URL defined.', 'warn');
+									if (settings.debug) methods.debug($(this), 'add_accordion: beforeActivate: ' + el + ' is showed but no URL defined.', 'warn');
 								}
 							}
 						}
+
 					});
 				});
 			},

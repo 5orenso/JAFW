@@ -74,5 +74,45 @@ Include these line in the bottom of the html to enable jafw-parsing.
 </div>
 ```
 
+### To activate accordion:
+```html
+<div class="jafw-accordion">
+	<h3>Section 1</h3>
+	<div>
+		<p>
+			Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna.
+		</p>
+	</div>
+	<h3>Section 2</h3>
+	<div data-url="ajax/hello_world.html">
+	</div>
+</div>
+```
+
+
+Authors
+-------
+**Øistein Sørensen**
+
++ http://litt.no/twitter
++ http://litt.no/linkedin
+
+
+Copyright and license
+---------------------
+
+Copyright 2012 Twitter, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this work except in compliance with the License.
+You may obtain a copy of the License in the LICENSE file, or at:
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 

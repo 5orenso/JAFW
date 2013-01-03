@@ -84,7 +84,7 @@
 						});
 						methods.init_actions($this, 'body');
 					} else {
-						//alert('alread initialized...' + data.query_string.debug);			
+						//alert('alread initialized...' + data.query_string.debug);
 					}
 				});
 			},
@@ -108,9 +108,9 @@
 					r = /([^&=]+)=?([^&]*)/g,
 					d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
 					q = query_string || window.location.search.substring(1);
-				while (e = r.exec(q)) 
+				while (e = r.exec(q))
 					params[d(e[1])] = d(e[2]);
-				return params;		
+				return params;
 			},
 
 
@@ -153,15 +153,15 @@
 						try {
 							console.log(timestamp + ' : ' + msg);
 						} catch (err) {
-	
+
 						}
 					}
-	
+
 					var color = '';
 					if      (type == 'err')     { color = '#ff0000'; } // red
 					else if (type == 'action')  { color = '#0000aa'; } // blue
 					else if (type == 'info')    { if (query_string.jdebug < 3) return ''; color = '#aaaaaa'; } // gray
-					else if (type == 'network') { color = '#FF00E1'; } // 
+					else if (type == 'network') { color = '#FF00E1'; } //
 					else if (type == 'warn')    { if (query_string.jdebug < 2) return ''; color = '#ff8000'; } // orange
 					else if (type == 'msg')     { color = '#00aa00'; } // green
 					else { if (query_string.jdebug < 2) return ''; color = '#8b8989'; }
@@ -196,7 +196,7 @@
 				methods.add_badge($this, css_selector);
 				methods.add_endless($this, css_selector);
 				methods.add_serverpush($this, css_selector);
-	
+
 				methods.add_modal($this, css_selector);
 				methods.add_tooltip($this, css_selector);
 				methods.add_submit($this, css_selector);
@@ -230,7 +230,7 @@
 					$('#' + target + '_ajax_loader').show();
 				} else if (action == 'hide') {
 					if (settings.debug) methods.debug(target, 'loader: Hide ajax loader.', 'info');
-					$('#' + target + '_ajax_loader').hide();		
+					$('#' + target + '_ajax_loader').hide();
 				}
 			},
 
@@ -259,7 +259,7 @@
 					//
 					// Timeout request in seconds.
 					timeout : opt.timeout,
-					// This event, which is triggered before an Ajax request is started, 
+					// This event, which is triggered before an Ajax request is started,
 					// allows you to modify the XMLHttpRequest object (setting additional
 					// headers, if need be.)
 					beforeSend: function (xhr) {
@@ -267,8 +267,8 @@
 						// Show loader before we start loading.
 						if (!opt.loader_hide) methods.loader(opt.target, 'show');
 					},
-					// This event is called regardless of if the request was successful, 
-					// or not. You will always receive a complete callback, even for 
+					// This event is called regardless of if the request was successful,
+					// or not. You will always receive a complete callback, even for
 					// synchronous requests.
 					complete : function (jqXHR, textStatus, options) {
 						if (opt.complete) {
@@ -280,7 +280,7 @@
 							}
 						}
 					},
-					// This event is only called if the request was successful (no errors 
+					// This event is only called if the request was successful (no errors
 					// from the server, no errors with the data).
 					success: function (data, textStatus, jqXHR) {
 						var target = $('#' + opt.target);
@@ -351,7 +351,7 @@
 							if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success: target is visible. el: ' + target, 'info');
 							// The element is visible and no toggle is wanted.
 						}
-	
+
 						// If function. Then execute it.
 						if (opt.success_after) {
 							var fn = eval(opt.success_after);
@@ -361,7 +361,7 @@
 								fn();//jqXHR, textStatus, options);
 							}
 						}
-	
+
 						// Init actions on target
 						methods.init_actions($(this), '#' + opt.target);
 
@@ -391,7 +391,7 @@
 							}
 						}
 					},
-					// This event is only called if an error occurred with the request 
+					// This event is only called if an error occurred with the request
 					// (you can never have both an error and a success callback with a request).
 					error: function (jqXHR, textStatus, errorThrown) {
 						if (settings.debug) methods.debug($(this), 'ajax: error: ' + opt.url + ' -> ' + opt.target + ' : ' + textStatus, 'err');
@@ -417,7 +417,7 @@
 
 
 			add_load : function ($this, css_selector) {
-				if (settings.debug) methods.debug($this, 'add_load: ' + css_selector + ' .' + settings.class_load, 'info');		
+				if (settings.debug) methods.debug($this, 'add_load: ' + css_selector + ' .' + settings.class_load, 'info');
 				$(css_selector + ' .' + settings.class_load).each( function (index) {
 					var el = $(this);
 					for (var i=1; i<=5; i++) {
@@ -431,7 +431,7 @@
 						//jQuery.dump(e);
 						if (url) {
 							if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded!, ' + url + ' -> ' + target, 'action');
-							// Run ajax call... 
+							// Run ajax call...
 							methods.ajax({
 								url    : url,
 								param  : param,
@@ -450,7 +450,7 @@
 
 
 			add_click : function ($this, css_selector) {
-				if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ' .' + settings.class_click, 'info');		
+				if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ' .' + settings.class_click, 'info');
 				$(css_selector + ' .' + settings.class_click).bind({
 					click: function (event) {
 						if (event.preventDefault) event.preventDefault();
@@ -489,7 +489,7 @@
 							var toggle_class  = el.attr('data-toggle-class' + cnt);
 							if (bubble_up == 'true') {
 								if (!toggle_class) toggle_class = el.parent().attr('data-toggle-class' + cnt);
-							}			    
+							}
 							if (toggle_class) {
 								var toggle_target = el.attr('data-toggle-target' + cnt);
 								var toggle_state = el.attr('data-toggle-state' + cnt);
@@ -498,7 +498,7 @@
 									if (!toggle_state) toggle_state = el.parent().attr('data-toggle-state' + cnt);
 								}
 								if (settings.debug) methods.debug($this, 'add_click: toggle_class'+cnt+'=' + toggle_class + ', target=' + toggle_target, 'info');
-		
+
 								if (toggle_target == 'this') {
 									if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
 									toggle_target = el.attr('id');
@@ -510,14 +510,14 @@
 								}
 								no_action = 0;
 							}
-		
+
 							var remove = el.attr('data-remove' + cnt);
 							if (remove) {
 								el.fadeOut(1000, function () {
 									$(this).remove();
 								});
 							}
-		
+
 							var hide = el.attr('data-hide' + cnt);
 							if (hide) {
 								var hide_target = el.attr('data-hide-target' + cnt);
@@ -534,7 +534,7 @@
 							var prepend     = el.attr('data-prepend' + cnt);
 							var update_timestamp = el.data('update');
 							var remove      = el.data('remove');
-		
+
 							//jQuery.dump(e);
 							if (url) {
 								if (!el.data('event-default')) event.preventDefault();
@@ -568,7 +568,7 @@
 						} // for (i=0; i<=5; i++)
 					} // click: function (event)
 				});
-			},					  
+			},
 
 
 			add_change : function ($this, css_selector) {
@@ -630,7 +630,7 @@
 					el = $(event.target);
 					val = escape( el.val() ); //methods.html_encode( methods.html_decode(el.val()) );
 				}
-		
+
 				for (var i=1; i<=5; i++) {
 					var cnt         = i==1 ? '' : '-'+i;
 					var url         = el.attr('data-change-url' + cnt);
@@ -645,10 +645,10 @@
 					var name        = el.attr('name');
 					var delay       = el.attr('data-delay' + cnt);
 					var delay_class = el.attr('data-delay-class' + cnt);
-		
+
 					//jQuery.dump(e);
 					if (url) {
-						// Run ajax call... 
+						// Run ajax call...
 						var data = $.extend({}, methods.query_string(param), {'f' : name, 'value' : val});
 						if (settings.debug) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
 						methods.ajax({
@@ -669,7 +669,7 @@
 			// TODO:
 			// * Add more options from module: http://api.jqueryui.com/sortable/
 			add_sortable : function ($this, css_selector) {
-				if (settings.debug) methods.debug($this, 'add_sortable: ' + css_selector + ' .' + settings.class_sortable, 'info');		
+				if (settings.debug) methods.debug($this, 'add_sortable: ' + css_selector + ' .' + settings.class_sortable, 'info');
 				$(css_selector + ' .' + settings.class_sortable).each( function (index) {
 					var el = $(this);
 					var cnt = '';
@@ -682,7 +682,7 @@
 					var delay_class = el.attr('data-delay-class' + cnt);
 					var handle      = el.attr('data-handle' + cnt);
 					var connect     = el.attr('data-connect') || settings.class_sortable;
-			
+
 					el.sortable({
 						connectWith: '.' + connect,
 						placeholder: 'sortable-highlight',
@@ -699,7 +699,7 @@
 							//	key: event.target.id + '[]'
 							//});
 							if (url) {
-								// Run ajax call... 
+								// Run ajax call...
 								if (settings.debug) methods.debug($(this), 'add_sortable: ' + event.target + ' is sorted!, ' + url + ' -> #' + target, 'action');
 								methods.ajax({
 									append : append,
@@ -736,16 +736,16 @@
 					var save_on_blur     = el.attr('data-save-on-blur');
 					var save_on_snapshot = el.attr('data-save-on-snapshot');
 					var paste_url        = el.attr('data-paste-url');
-		
+
 					//-------------------------------------------------------------------------
 					// if (typeof(editor) == 'undefined')
 					// 	var editor=null;
-					// 
+					//
 					// function ck_delete(editor) {
 					// 	if(typeof(editor) != 'undefined' && editor!=null)
 					// 	    editor.destroy();
 					// }
-					// 
+					//
 					// function ck_init(ck_inst_name) {
 					// 	var el_id = document.getElementById(ck_inst_name);
 					// 	if (typeof(el_id) != 'undefined' && el_id!=null) {
@@ -758,8 +758,8 @@
 					// 	    }
 					// 	}
 					// }
-		
-		
+
+
 					//-------------------------------------------------------------------------
 					var editor_config = {
 						stylesSet : [
@@ -898,8 +898,8 @@
 							}
 						}
 					};
-		
-		
+
+
 					if (CKEDITOR.instances[id]) {
 						try {
 							CKEDITOR.instances[id].destroy(true);
@@ -912,11 +912,11 @@
 						//} catch (err) { }
 					}
 					//ckeditors.push(id);
-					//ckeditors = jQuery.unique(ckeditors);		    
-		
+					//ckeditors = jQuery.unique(ckeditors);
+
 					CKEDITOR.replace( id, editor_config );
 					//-----------------------------------------------------------------------------------------
-					
+
 				});
 			},
 
@@ -966,7 +966,7 @@
 								//jQuery.dump(e);
 								if (url) {
 									if (settings.debug) methods.debug($(this), 'add_tabs: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
-									// Run ajax call... 
+									// Run ajax call...
 									methods.ajax({
 										url    : url,
 										param  : param,
@@ -982,7 +982,7 @@
 					});
 				});
 			},
-	
+
 
 			add_accordion : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_accordion: ' + css_selector + ' .' + settings.class_accordion, 'info');
@@ -1008,7 +1008,7 @@
 								//jQuery.dump(e);
 								if (url) {
 									if (settings.debug) methods.debug($(this), 'add_accordion: beforeActivate: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
-									// Run ajax call... 
+									// Run ajax call...
 									methods.ajax({
 										url    : url,
 										param  : param,
@@ -1028,14 +1028,14 @@
 
 
 			add_submit : function ($this, css_selector) {
-				if (settings.debug) methods.debug($this, 'add_submit: ' + css_selector + ' .' + settings.class_submit, 'info');		
+				if (settings.debug) methods.debug($this, 'add_submit: ' + css_selector + ' .' + settings.class_submit, 'info');
 				$(css_selector + ' .' + settings.class_submit).bind({
 					submit: function (event) {
 						event.stopPropagation();
 						event.preventDefault();
 						var el = $(this);
 						if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
-			
+
 						// Remove all alerts and alert classes.
 						$('.' + settings.class_required_field).each( function (index) {
 							var e = $(this);
@@ -1045,7 +1045,7 @@
 							var e = $(this);
 							e.remove();
 						});
-			
+
 						// Check required
 						var faults = $('input,textarea').filter(function () {
 							// filter input elements to required ones that are empty
@@ -1057,7 +1057,7 @@
 						}).addClass(settings.class_required_field);
 						//console.log(faults);
 						//console.log(faults.length);
-			
+
 						$('input[type="submit"]').each( function (index) {
 							var e = $(this);
 							e.prop('disabled', true);
@@ -1068,7 +1068,7 @@
 							}
 							e.addClass(settings.class_submit_in_progress);
 						});
-			
+
 						if (!faults.length) {
 							for (var i=1; i<=5; i++) {
 								var cnt         = i==1 ? '' : '-'+i;
@@ -1080,11 +1080,11 @@
 								var delay_class = el.attr('data-delay-class' + cnt);
 								var modal_close = el.attr('data-modal-close');
 								//var required    = el.data('required');
-								
+
 								//jQuery.dump(e);
 								if (url && target) {
 									if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited!, ' + url + ' -> ' + target, 'action');
-									// Run ajax call... 
+									// Run ajax call...
 									methods.ajax({
 										url    : url,
 										param  : param + '&' + el.serialize(),
@@ -1137,7 +1137,7 @@
 					var param       = el.attr('data-param');
 					var delay       = el.attr('data-delay');
 					var delay_class = el.attr('data-delay-class');
-		
+
 					if (source) {
 						$(el).autocomplete({
 							source: source,
@@ -1154,7 +1154,7 @@
 								}
 								if (url && target) {
 									if (settings.debug) methods.debug($(this), 'add_autocomplete: selected: ' + e + ' is submited!, ' + url + ' -> ' + target, 'action');
-									// Run ajax call... 
+									// Run ajax call...
 									methods.ajax({
 										url    : url,
 										param  : param + '&f=' + name + '&value=' + ui.item.id,
@@ -1188,7 +1188,7 @@
 					var height       = el.attr('data-height') || el.height() || 300;
 					var marker_title = el.attr('data-marker-title');
 					var info_content = el.attr('data-info-content');
-		
+
 					// Insert search field if wanted
 					if (search && !$('#' + search_field).length>0) {
 						var h = 20;
@@ -1199,7 +1199,7 @@
 					if (!$('#' + map_canvas).length>0) {
 						$('<div id="' + map_canvas + '" class="googlemap" style="width:100%; height:' + height + 'px;">Loading google map...</div>').appendTo(el);
 					}
-					
+
 					var geocoder;
 					var map;
 					var marker;
@@ -1212,7 +1212,7 @@
 					};
 					// Initializing map
 					map = new google.maps.Map(document.getElementById(map_canvas), opt);
-		
+
 					// Geocoder
 					geocoder = new google.maps.Geocoder();
 					marker = new google.maps.Marker({
@@ -1221,15 +1221,15 @@
 						draggable: true,
 						title: marker_title
 					});
-		
+
 					info = new google.maps.InfoWindow({
 						content: '<h1>' + marker_title + '</h1>' + info_content
 					});
-		
+
 					google.maps.event.addListener(marker, 'click', function () {
 						info.open(map, marker);
 					});
-		
+
 					$('#' + search_field).autocomplete({
 						//This bit uses the geocoder to fetch address values
 						source: function (request, response) {
@@ -1252,7 +1252,7 @@
 							map.setCenter(location);
 						}
 					});
-		
+
 					google.maps.event.addListener(marker, 'drag', function () {
 						geocoder.geocode({'latLng': marker.getPosition()}, function (results, status) {
 							if (status == google.maps.GeocoderStatus.OK) {
@@ -1263,8 +1263,8 @@
 							}
 						});
 					});
-		
-								
+
+
 					// Dynamic loading... TODO
 					// Check if google api is loaded.
 					// window.google = window.google || {}; google.maps = google.maps || {};
@@ -1274,7 +1274,7 @@
 					//} else {
 					//init_map();
 					//}
-		
+
 				});
 			},
 
@@ -1287,8 +1287,8 @@
 					var id           = el.attr('id');
 					var url         = el.attr('data-url');
 					var param       = el.attr('data-param');
-		
-					$(el).editable(url, { 
+
+					$(el).editable(url, {
 						indicator  : '<img src="/tools/jafw/ajax-loader.gif">',
 						tooltip    : "Doubleclick to edit...",
 						event      : "dblclick",
@@ -1296,7 +1296,7 @@
 						submit     : 'OK',
 						submitdata : methods.query_string(param)
 					});
-		
+
 				});
 			},
 
@@ -1322,7 +1322,7 @@
 
 			add_modal : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_modal: ' + css_selector + ' .' + settings.class_modal, 'info');
-		
+
 				// Activate modal close links.
 				$(css_selector + ' .' + settings.class_modal + '-close').bind({
 					click: function (event) {
@@ -1331,7 +1331,7 @@
 						$('.' + settings.class_modal + '_mask').hide().remove();
 					}
 				});
-			
+
 				// Activate modal links.
 				$(css_selector + ' .' + settings.class_modal).bind({
 					click: function (event) {
@@ -1347,17 +1347,17 @@
 						var delay_class = el.attr('data-delay-class');
 						var modal  = settings.class_modal + '_' + methods.random_number(10000);
 						var mask   = modal + '_mask';
-		
+
 						// Insert mask
 						$('<div class="jafw-modal_mask" id="' + mask + '"></div>').appendTo($('body'));
 						// Insert window
 						$('<div class="jafw-modal_window" id="' + modal + '"></div>').appendTo($('body'));
-		
-		
+
+
 						// Load content into window
 						if (url) {
 							if (settings.debug) methods.debug($(this), 'add_modal: ' + el + ' is modal!, url_part[1]=' + url_part[1] + ', ' + url + ' -> ' + modal, 'action');
-							// Run ajax call... 
+							// Run ajax call...
 							methods.ajax({
 								url    : url,
 								param  : param,
@@ -1368,12 +1368,12 @@
 						} else {
 							if (settings.debug) methods.debug($(this), 'add_modal: ' + el + ' is modal but no URL defined.', 'warn');
 						}
-					
-		
+
+
 						// Get the screen height and width
 						var maskHeight = $(document).height();
 						var maskWidth = $(window).width();
-					
+
 						// Set height and width to mask to fill up the whole screen
 						$('#' + mask).css({
 							'background-color' : '#000',
@@ -1385,7 +1385,7 @@
 							'width'  : maskWidth,
 							'z-index' : 9990
 						});
-		
+
 						// Set styles of the window.
 						$('#' + modal).css({
 							'background' : '#ffffff',
@@ -1398,23 +1398,23 @@
 							'width' : width + 'px',
 							'z-index' : 9999
 						});
-		
-					
-						// transition effect     
-						//$('#' + mask).fadeIn(1000);    
-						$('#' + mask).fadeTo("slow",0.8);  
-					
+
+
+						// transition effect
+						//$('#' + mask).fadeIn(1000);
+						$('#' + mask).fadeTo("slow",0.8);
+
 						// Get the window height and width
 						var winH = $(window).height();
 						var winW = $(window).width();
-					
+
 						// Set the popup window to center
 						$('#' + modal).css('top',  winH/2-$('#' + modal).height()/2);
 						$('#' + modal).css('left', winW/2-$('#' + modal).width()/2);
-					
+
 						// transition effect
-						$('#' + modal).fadeIn(1000); 
-		
+						$('#' + modal).fadeIn(1000);
+
 						// Hide if close button is clicked
 						$('#' + modal + ' .close').click(function (e) {
 							// Cancel the link behavior
@@ -1422,25 +1422,25 @@
 							$('#' + modal).hide().remove();
 							$('#' + mask).hide().remove();
 						});
-					
+
 						// Hide if mask is clicked.
 						$('#' + mask).click(function () {
 							$('#' + modal).hide().remove();
 							$('#' + mask).hide().remove();
-						});         
-					
+						});
+
 						// Hide when escape it hit.
 						$(document).keyup(function (e) {
 							//if (e.keyCode == 13) { // enter
 							//	$('#' + modal).hide().remove();
 							//	$('#' + mask).hide().remove();
-							//} 
+							//}
 							if (e.keyCode == 27) { // esc
 								$('#' + modal).hide().remove();
 								$('#' + mask).hide().remove();
 							}
 						});
-		
+
 						$(window).resize(function () {
 							var box = $('#' + modal);
 							//Get the screen height and width
@@ -1470,8 +1470,8 @@
 					tooltip.removeData('tooltip-hide-timer');
 				}
 				if (!show_timer) {
-					var show_timer = setTimeout( function () { 
-						methods.tooltip_show($this, el); 
+					var show_timer = setTimeout( function () {
+						methods.tooltip_show($this, el);
 						el.removeData('tooltip-show-timer');
 					}, settings.tooltip_delay_in);
 					el.data('tooltip-show-timer', show_timer);
@@ -1514,17 +1514,17 @@
 					// Add offset as params.
 					var delay       = el.data('tooltip-delay');
 					var delay_class = el.data('tooltip-delay-class');
-		
+
 					// Setting tooltip id to trigger el.
 					el.data('tooltip', tooltip);
 					// Insert window
 					$('<div class="jafw-tooltip-container" id="' + tooltip + '"><div class="jafw-arrow-up" id="' + tooltip + '-arrow-up"></div><div class="jafw-tooltip-window jafw-tooltip" id="' + tooltip + '-window" data-tooltip="' + tooltip + '"></div></div>').appendTo($('body'));
 					methods.add_tooltip($this, '#' + tooltip);
-		
+
 					// Load content into window
 					if (url) {
 						if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' loading ajax content!, ' + url + ' -> ' + tooltip, 'action');
-						// Run ajax call... 
+						// Run ajax call...
 						methods.ajax({
 							url    : url,
 							param  : param,
@@ -1554,7 +1554,7 @@
 						'border-radius' : '4px',
 						'height' : height + 'px',
 						'overflow' : 'auto',
-						'padding' : '20px',		
+						'padding' : '20px',
 						'width' : width + 'px'
 					});
 					// Set styles of the container.
@@ -1590,7 +1590,7 @@
 
 			add_tooltip : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_tooltip: ' + css_selector + ' .' + settings.class_tooltip, 'info');
-				
+
 				// Activate tooltip links.
 				$(css_selector + ' .' + settings.class_tooltip).bind({
 					mouseenter: function (event) {
@@ -1610,18 +1610,18 @@
 					click: function (event) {
 						// What should happend when I click this?
 					}
-		
+
 				});
 			},
 
 
 			add_endless : function ($this, css_selector) {
-	
+
 				//		$(css_selector + ' .' + settings.class_serverpush).bind({
 				//		    click: function (event) {
 				//			var el = $(this);
 				//
-				//		$(window).scroll(function () { 
+				//		$(window).scroll(function () {
 				//		    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100) {
 				//			//Add something at the end of the page
 				//		    }
@@ -1674,11 +1674,11 @@
 					'last-check' : el.data('last-check'),
 					'last-load'  : el.data('last-load')
 				});
-		
+
 				//jQuery.dump(e);
 				if (url) {
 					if (settings.debug) methods.debug($(this), 'do_serverpush: ' + el + ' is serverpush!, ' + url + ' -> ' + target, 'action');
-					// Run ajax call... 
+					// Run ajax call...
 					methods.ajax({
 						loader_hide : 1,
 						element  : el,
@@ -1702,7 +1702,7 @@
 				});
 			},
 
-		
+
 			add_pageshow : function ($this, css_selector) {
 				if (settings.debug) methods.debug($this, 'add_pageshow: ' + css_selector + ' .' + settings.class_pageshow, 'info');
 				//$(css_selector + ' .' + settings.class_pageshow).bind({
@@ -1764,10 +1764,12 @@ jQuery(document).ready(function ($) {
 	jQuery.fn.exists = function (){return this.length>0;}
 	$(document).jafw();
 
+	// TODO: Should we include this or should this be a plugin?
 	//$('head').append('<script type="text/javascript" src="/tools/jafw/js/libs/badger.js"></script>');
 	$('head').append('<link rel="stylesheet" href="/tools/jafw/css/badger.css" type="text/css" />');
 
 	// Init syntax highlighting.
+	// TODO: Make this optional.
 	if (jQuery.isFunction($.SyntaxHighlighter.init)) {
 		$.SyntaxHighlighter.init();
 		$('body').syntaxHighlight();

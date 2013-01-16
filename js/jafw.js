@@ -500,7 +500,7 @@
                                 }
                                 if (settings.debug) methods.debug($this, 'add_click: toggle_class'+cnt+'=' + toggle_class + ', target=' + toggle_target, 'info');
 
-                                if (toggle_target == 'this' || toggle_target == 'undefined') {
+                                if (toggle_target == 'this' || toggle_target == undefined) {
                                     if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
                                 }

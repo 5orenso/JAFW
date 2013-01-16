@@ -491,6 +491,12 @@
                             if (bubble_up == 'true') {
                                 if (!toggle_class) toggle_class = el.parent().attr('data-toggle-class' + cnt);
                             }
+
+                            var remove_class = el.attr('data-remove-class' + cnt);
+                            if (remove_class) {
+                                $(remove_class).removeClass(toggle_class);
+                            }
+
                             if (toggle_class) {
                                 var toggle_target = el.attr('data-toggle-target' + cnt);
                                 var toggle_state = el.attr('data-toggle-state' + cnt);

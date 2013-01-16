@@ -503,6 +503,9 @@
                                 if (toggle_target == 'this' || toggle_target === undefined) {
                                     if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
+                                } else if (toggle_target == 'parent') {
+                                    if (!el.parent().attr('id')) el.parent().attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = el.parent().attr('id');
                                 }
                                 if (toggle_state) {
                                     $('#' + toggle_target).toggleClass(toggle_class, true);

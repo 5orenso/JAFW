@@ -97,7 +97,7 @@
                     //$(window).unbind('.tooltip');
                     settings.data.tooltip.remove();
                     $this.removeData('jafw');
-                })
+                });
             },
 
 
@@ -200,6 +200,7 @@
                 methods.add_modal($this, css_selector);
                 methods.add_tooltip($this, css_selector);
                 methods.add_submit($this, css_selector);
+
             },
 
 
@@ -499,7 +500,7 @@
                                 }
                                 if (settings.debug) methods.debug($this, 'add_click: toggle_class'+cnt+'=' + toggle_class + ', target=' + toggle_target, 'info');
 
-                                if (toggle_target == 'this') {
+                                if (toggle_target == 'this' || toggle_target == 'undefined') {
                                     if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
                                 }

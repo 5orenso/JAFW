@@ -477,7 +477,7 @@
                             var remove_class  = el.attr('data-remove-class' + cnt);
                             var toggle_target = el.attr('data-toggle-target' + cnt);
                             var toggle_state  = el.attr('data-toggle-state' + cnt);
-                            var fn_complete   = el.data('complete');
+                            var fn_complete   = el.attr('data-complete');
                             var bubble_up     = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
                                 target                            = el.parent().attr('data-target' + cnt) || target;

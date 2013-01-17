@@ -585,10 +585,10 @@
                                 no_action = 0;
                             } else {
                                 if (settings.debug >= 3) methods.debug($(this), 'add_click: ' + event.target + ' is clicked but no URL defined.', 'warn');
-                                var complete = el.data('complete') || el.closest('.' + settings.class_click).data('complete');
+                                var complete = el.data('complete') || el.closest(bubble_up).data('complete');
                                 if (complete) {
-                                    var fn = eval(opt.complete);
-                                    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + opt.complete + '" object: ' + fn, 'action');
+                                    var fn = eval(complete);
+                                    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + complete + '" object: ' + fn, 'action');
                                     if (jQuery.isFunction(fn)) {
                                         if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
                                         fn(jqXHR, textStatus, options);

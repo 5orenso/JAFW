@@ -477,6 +477,7 @@
                             var remove_class  = el.attr('data-remove-class' + cnt);
                             var toggle_target = el.attr('data-toggle-target' + cnt);
                             var toggle_state  = el.attr('data-toggle-state' + cnt);
+                            var fn_complete   = el.data('complete');
                             var bubble_up     = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
                                 target                            = el.parent().attr('data-target' + cnt) || target;
@@ -489,6 +490,7 @@
                                 if (!remove_class) remove_class   = el.parent().attr('data-remove-class' + cnt);
                                 if (!toggle_target) toggle_target = el.parent().attr('data-toggle-target' + cnt);
                                 if (!toggle_state) toggle_state   = el.parent().attr('data-toggle-state' + cnt);
+                                if (!fn_complete) fn_complete     = el.parent().attr('data-complete' + cnt);
                             } else if (bubble_up) {
                                 target                            = el.closest(bubble_up).attr('data-target' + cnt) || target;
                                 if (!url)    url                  = el.closest(bubble_up).attr('data-url' + cnt);
@@ -500,6 +502,7 @@
                                 if (!remove_class) remove_class   = el.closest(bubble_up).attr('data-remove-class' + cnt);
                                 if (!toggle_target) toggle_target = el.closest(bubble_up).attr('data-toggle-target' + cnt);
                                 if (!toggle_state) toggle_state   = el.closest(bubble_up).attr('data-toggle-state' + cnt);
+                                if (!fn_complete) fn_complete     = el.closest(bubble_up).attr('data-complete' + cnt);
                             }
                             var toggle      = el.attr('data-toggle' + cnt);
                             if (toggle) {
@@ -580,15 +583,14 @@
                                     keep_open        : keep_open,
                                     load_toggle      : load_toggle,
                                     syntax_highlight : el.data('syntax-highlight') || el.closest('.' + settings.class_click).data('syntax-highlight'),
-                                    success_after    : el.data('complete') || el.closest('.' + settings.class_click).data('complete')
+                                    success_after    : fn_complete
                                 });
                                 no_action = 0;
                             } else {
                                 if (settings.debug >= 3) methods.debug($(this), 'add_click: ' + event.target + ' is clicked but no URL defined.', 'warn');
-                                var complete = el.data('complete') || el.closest(bubble_up).data('complete');
-                                if (complete) {
-                                    var fn = eval(complete);
-                                    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + complete + '" object: ' + fn, 'action');
+                                if (fn_complete) {
+                                    var fn = eval(fn_complete);
+                                    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + fn_complete + '" object: ' + fn, 'action');
                                     if (jQuery.isFunction(fn)) {
                                         if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
                                         fn(jqXHR, textStatus, options);

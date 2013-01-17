@@ -477,7 +477,7 @@
                             var remove_class  = el.attr('data-remove-class' + cnt);
                             var toggle_target = el.attr('data-toggle-target' + cnt);
                             var toggle_state  = el.attr('data-toggle-state' + cnt);
-                            var fn_complete   = el.attr('data-complete');
+                            var fn_complete   = el.attr('data-complete' + cnt);
                             var bubble_up     = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
                                 target                            = el.parent().attr('data-target' + cnt) || target;
@@ -509,6 +509,8 @@
                                 $('#' + toggle).toggle();
                                 no_action = 0;
                             }
+                            if (settings.debug) methods.debug($this, 'add_click: fn_complete=' + fn_complete, 'info');
+
                             
                             // Remove all classes for matching css selector.
                             if (remove_class) {
@@ -583,7 +585,8 @@
                                     keep_open        : keep_open,
                                     load_toggle      : load_toggle,
                                     syntax_highlight : el.data('syntax-highlight') || el.closest('.' + settings.class_click).data('syntax-highlight'),
-                                    success_after    : fn_complete
+                                    success_after    : '',
+                                    complete         : fn_complete
                                 });
                                 no_action = 0;
                             } else {

@@ -211,7 +211,7 @@
                     if (settings.debug) methods.debug(target, 'loader: Show ajax loader.', 'info');
                     if ($('#' + target + '_ajax_loader').length <= 0) {
                         //$('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/tools/wip5b/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:20px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/tools/jafw/ajax-loader.gif" /><div class="clear"></div>').appendTo($('body'));
-                        $('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/tools/wip5b/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:5px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/tools/jafw/ajax-loader.gif" /><div class="clear"></div>').prependTo($('#' + target));
+                        $('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/jafw/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:5px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/jafw/img/ajax-loader.gif" /><div class="clear"></div>').prependTo($('#' + target));
                     }
                     var offset = $('#' + target).offset();
                     var h = $('#' + target).height();
@@ -509,7 +509,7 @@
                                 $('#' + toggle).toggle();
                                 no_action = 0;
                             }
-                            if (settings.debug) methods.debug($this, 'add_click: fn_complete=' + fn_complete, 'info');
+                            if (settings.debug && fn_complete) methods.debug($this, 'add_click: fn_complete=' + fn_complete, 'info');
 
                             
                             // Remove all classes for matching css selector.
@@ -584,9 +584,8 @@
                                     delay_class      : delay_class,
                                     keep_open        : keep_open,
                                     load_toggle      : load_toggle,
-                                    syntax_highlight : el.data('syntax-highlight') || el.closest('.' + settings.class_click).data('syntax-highlight'),
-                                    success_after    : '',
-                                    complete         : fn_complete
+                                    //complete         : fn_complete,
+                                    success_after    : fn_complete
                                 });
                                 no_action = 0;
                             } else {

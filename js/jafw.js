@@ -555,7 +555,6 @@
                             var append      = el.attr('data-append' + cnt);
                             var prepend     = el.attr('data-prepend' + cnt);
                             var update_timestamp = el.data('update');
-                            var remove      = el.data('remove');
 
                             //jQuery.dump(e);
                             if (url) {
@@ -586,6 +585,15 @@
                                 no_action = 0;
                             } else {
                                 if (settings.debug >= 3) methods.debug($(this), 'add_click: ' + event.target + ' is clicked but no URL defined.', 'warn');
+                                var complete = el.data('complete') || el.closest('.' + settings.class_click).data('complete');
+                                if (complete) {
+                                    var fn = eval(opt.complete);
+                                    if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + opt.complete + '" object: ' + fn, 'action');
+                                    if (jQuery.isFunction(fn)) {
+                                        if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
+                                        fn(jqXHR, textStatus, options);
+                                    }
+                                }
                             }
                         } // for (i=0; i<=5; i++)
                     } // click: function (event)

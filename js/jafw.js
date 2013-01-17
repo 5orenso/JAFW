@@ -461,49 +461,58 @@
                         var el = $(event.target);
                         var no_action = 1;
                         for (var i=1; i<=5; i++) {
-                            var cnt         = i==1 ? '' : '-'+i;
-                            var url         = el.attr('data-url' + cnt) || el.attr('href' + cnt);
+                            var cnt    = i==1 ? '' : '-'+i;
+                            var url    = el.attr('data-url' + cnt) || el.attr('href' + cnt);
                             // Use target from this element or find closest upwards.
-                            var target      = el.attr('data-target' + cnt) || el.closest('.' + settings.class_click).attr('data-target' + cnt);
+                            var target = el.attr('data-target' + cnt) || el.closest('.' + settings.class_click).attr('data-target' + cnt);
                             if (target == 'this') {
                                 if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                 target = el.attr('id');
                             }
                             //if (settings.debug) methods.debug($(this), cnt + ', target=' + target);
-                            var param       = el.attr('data-param' + cnt);
-                            var delay       = el.attr('data-delay' + cnt);
-                            var delay_class = el.attr('data-delay-class' + cnt);
-                            var bubble_up   = el.attr('data-click'); // Sufficient with one bubble up check.
+                            var param         = el.attr('data-param' + cnt);
+                            var delay         = el.attr('data-delay' + cnt);
+                            var delay_class   = el.attr('data-delay-class' + cnt);
+                            var toggle_class  = el.attr('data-toggle-class' + cnt);
+                            var remove_class  = el.attr('data-remove-class' + cnt);
+                            var toggle_target = el.attr('data-toggle-target' + cnt);
+                            var toggle_state  = el.attr('data-toggle-state' + cnt);
+                            var bubble_up     = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
-                                target = el.parent().attr('data-target' + cnt) || target;
-                                if (!url)    url    = el.parent().attr('data-url' + cnt);
+                                target                            = el.parent().attr('data-target' + cnt) || target;
+                                if (!url)    url                  = el.parent().attr('data-url' + cnt);
                                 if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ': bubbling up to find closest... url='+url + ', target=' + target, 'info');
-                                if (!param)  param  = el.parent().attr('data-param' + cnt);
-                                if (!delay)  delay  = el.parent().attr('data-delay' + cnt);
-                                if (!delay_class) delay_class = el.parent().attr('data-delay-class' + cnt);
+                                if (!param)  param                = el.parent().attr('data-param' + cnt);
+                                if (!delay)  delay                = el.parent().attr('data-delay' + cnt);
+                                if (!delay_class) delay_class     = el.parent().attr('data-delay-class' + cnt);
+                                if (!toggle_class) toggle_class   = el.parent().attr('data-toggle-class' + cnt);
+                                if (!remove_class) remove_class   = el.parent().attr('data-remove-class' + cnt);
+                                if (!toggle_target) toggle_target = el.parent().attr('data-toggle-target' + cnt);
+                                if (!toggle_state) toggle_state   = el.parent().attr('data-toggle-state' + cnt);
+                            } else if (bubble_up) {
+                                target                            = el.closest(bubble_up).attr('data-target' + cnt) || target;
+                                if (!url)    url                  = el.closest(bubble_up).attr('data-url' + cnt);
+                                if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ': bubbling up to find closest... url='+url + ', target=' + target, 'info');
+                                if (!param)  param                = el.closest(bubble_up).attr('data-param' + cnt);
+                                if (!delay)  delay                = el.closest(bubble_up).attr('data-delay' + cnt);
+                                if (!delay_class) delay_class     = el.closest(bubble_up).attr('data-delay-class' + cnt);
+                                if (!toggle_class) toggle_class   = el.closest(bubble_up).attr('data-toggle-class' + cnt);
+                                if (!remove_class) remove_class   = el.closest(bubble_up).attr('data-remove-class' + cnt);
+                                if (!toggle_target) toggle_target = el.closest(bubble_up).attr('data-toggle-target' + cnt);
+                                if (!toggle_state) toggle_state   = el.closest(bubble_up).attr('data-toggle-state' + cnt);
                             }
                             var toggle      = el.attr('data-toggle' + cnt);
                             if (toggle) {
                                 $('#' + toggle).toggle();
                                 no_action = 0;
                             }
-                            var toggle_class  = el.attr('data-toggle-class' + cnt);
-                            if (bubble_up == 'true') {
-                                if (!toggle_class) toggle_class = el.parent().attr('data-toggle-class' + cnt);
-                            }
-
-                            var remove_class = el.attr('data-remove-class' + cnt);
+                            
+                            // Remove all classes for matching css selector.
                             if (remove_class) {
                                 $(remove_class).removeClass(toggle_class);
                             }
-
+                            // Toggle class
                             if (toggle_class) {
-                                var toggle_target = el.attr('data-toggle-target' + cnt);
-                                var toggle_state = el.attr('data-toggle-state' + cnt);
-                                if (bubble_up == 'true') {
-                                    if (!toggle_target) toggle_target = el.parent().attr('data-toggle-target' + cnt);
-                                    if (!toggle_state) toggle_state = el.parent().attr('data-toggle-state' + cnt);
-                                }
                                 if (settings.debug) methods.debug($this, 'add_click: toggle_class'+cnt+'=' + toggle_class + ', target=' + toggle_target, 'info');
 
                                 if (toggle_target == 'this' || toggle_target === undefined) {
@@ -514,6 +523,7 @@
                                     toggle_target = el.parent().attr('id');
                                 }
                                 if (toggle_state) {
+                                    // If toggle_state is set, then make sure class is present inside object.
                                     $('#' + toggle_target).toggleClass(toggle_class, true);
                                 } else {
                                     $('#' + toggle_target).toggleClass(toggle_class);
@@ -521,6 +531,7 @@
                                 no_action = 0;
                             }
 
+                            // Remove element after 1000 ms.
                             var remove = el.attr('data-remove' + cnt);
                             if (remove) {
                                 el.fadeOut(1000, function () {
@@ -528,6 +539,7 @@
                                 });
                             }
 
+                            // Hide element slowly.
                             var hide = el.attr('data-hide' + cnt);
                             if (hide) {
                                 var hide_target = el.attr('data-hide-target' + cnt);

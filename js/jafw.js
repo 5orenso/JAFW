@@ -454,11 +454,14 @@
                 if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ' .' + settings.class_click, 'info');
                 $(css_selector + ' .' + settings.class_click).bind({
                     click: function (event) {
-                        if (event.preventDefault) event.preventDefault();
-                        if (event.stopPropagation) event.stopPropagation();
                         //event.stopPropagation();
                         //var e  = $(this); //event.target;
                         var el = $(event.target);
+                        if (! el.attr('data-skip')) {
+                            if (event.preventDefault) event.preventDefault();
+                            if (event.stopPropagation) event.stopPropagation();
+                        }
+
                         var no_action = 1;
                         for (var i=1; i<=5; i++) {
                             var cnt    = i==1 ? '' : '-'+i;

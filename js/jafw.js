@@ -14,6 +14,7 @@
         tooltip_height       : 70,
 
         class_load         : 'jafw-load',
+        class_select       : 'jafw-select',
         class_click        : 'jafw-click',
         class_change       : 'jafw-change',
         class_keyup        : 'jafw-keyup',
@@ -181,6 +182,7 @@
                 //alert(css_selector + ', settings.debug' + settings.debug);
                 if (settings.debug) methods.debug($this, 'init_actions: ' + css_selector, 'info');
                 methods.add_load($this, css_selector);
+                methods.add_select($this, css_selector);
                 methods.add_click($this, css_selector);
                 methods.add_change($this, css_selector);
                 methods.add_keyup($this, css_selector);
@@ -444,6 +446,66 @@
                             });
                         } else {
                             if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded but no URL defined.', 'warn');
+                        }
+                    }
+                });
+            },
+
+            add_select : function ($this, css_selector) {
+                if (settings.debug) methods.debug($this, 'add_select: ' + css_selector + ' .' + settings.class_select, 'info');
+                $(css_selector + ' .' + settings.class_select).bind({
+                    change:  function (event) {
+                        // TODO: Check if value has been changed before submitting.
+                        var el = $(event.target);
+                        var selected = $(el + ':selected');
+                        if (! el.attr('data-skip')) {
+                            if (event.preventDefault) event.preventDefault();
+                            if (event.stopPropagation) event.stopPropagation();
+                        }
+
+                        for (var i=1; i<=5; i++) {
+                            var cnt    = i==1 ? '' : '-'+i;
+                            var url    = selected.attr('data-url' + cnt)    || el.attr('data-url' + cnt);
+                            var param  = selected.attr('data-param' + cnt)  || el.attr('data-param' + cnt);
+                            var target = selected.attr('data-target' + cnt) || el.attr('data-target' + cnt);
+
+                            //jQuery.dump(e);
+                            if (url) {
+                                var delay            = el.attr('data-delay' + cnt);
+                                var delay_class      = el.attr('data-delay-class' + cnt);
+                                var append           = el.attr('data-append' + cnt);
+                                var prepend          = el.attr('data-prepend' + cnt);
+                                var update_timestamp = el.data('update');
+                                var remove           = el.attr('data-remove' + cnt);
+                                var keep_open        = el.attr('data-keep-open' + cnt);
+                                var load_toggle      = el.attr('data-load-toggle' + cnt);
+                                var fn_complete      = el.attr('data-complete' + cnt);
+
+                                if (!el.data('event-default')) event.preventDefault();
+                                var data = $.extend({}, methods.query_string(param), {
+                                    'f'       : el.attr('name'),
+                                    'value'   : el.val(),
+                                    'checked' : el.is(':checked'),
+                                    'tagname' : el.prop('tagName'),
+                                    'type'    : el.prop('type')
+                                });
+                                if (settings.debug) methods.debug($(this), 'add_select: ' + event.target + ' is selected!, ' + url + ' -> #' + target, 'action');
+                                methods.ajax({
+                                    url              : url,
+                                    param            : data,
+                                    target           : target,
+                                    delay            : delay,
+                                    delay_class      : delay_class,
+                                    append           : append,
+                                    prepend          : prepend,
+                                    update_timestamp : update_timestamp,
+                                    remove           : remove,
+                                    keep_open        : keep_open,
+                                    load_toggle      : load_toggle,
+                                    //complete         : fn_complete,
+                                    success_after    : fn_complete
+                                });
+                            }
                         }
                     }
                 });

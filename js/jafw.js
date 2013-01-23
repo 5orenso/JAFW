@@ -489,7 +489,7 @@
                                     'tagname' : el.prop('tagName'),
                                     'type'    : el.prop('type')
                                 });
-                                if (settings.debug) methods.debug($(this), 'add_select: ' + event.target + ' is selected!, ' + url + ' -> #' + target, 'action');
+                                if (settings.debug) methods.debug($(this), 'add_select: ' + event.target + ' is selected!, ' + url + ' -> #' + target, 'action' + ', param=' + param);
                                 methods.ajax({
                                     url              : url,
                                     param            : data,

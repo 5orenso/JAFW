@@ -458,7 +458,7 @@
                         // TODO: Check if value has been changed before submitting.
                         var el = $(event.target);
                         if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
-                        var selected = $('#' + el.attr('id') + ':selected');
+                        var selected = $('#' + el.attr('id') + ' option:selected');
                         if (! el.attr('data-skip')) {
                             if (event.preventDefault) event.preventDefault();
                             if (event.stopPropagation) event.stopPropagation();

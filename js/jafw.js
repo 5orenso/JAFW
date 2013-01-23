@@ -468,7 +468,7 @@
                             var url    = selected.attr('data-url' + cnt)    || el.attr('data-url' + cnt);
                             var param  = selected.attr('data-param' + cnt)  || el.attr('data-param' + cnt);
                             var target = selected.attr('data-target' + cnt) || el.attr('data-target' + cnt);
-
+console.log(param);
                             //jQuery.dump(e);
                             if (url) {
                                 var delay            = el.attr('data-delay' + cnt);

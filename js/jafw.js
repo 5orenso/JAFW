@@ -1090,6 +1090,7 @@
                     var el = $(this);
                     $(el).accordion({
                         autoHeight : false,
+                        heightStyle : 'fill',
                         beforeActivate: function (event, ui) {
                             //console.log(event);
                             //console.log(ui);

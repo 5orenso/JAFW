@@ -429,8 +429,8 @@
                         if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                         var target      = el.attr('data-load-target' + cnt) || el.attr('id'); //el.attr('data-target') || e.closest('.' + settings.class_click).attr('data-target');
                         var param       = el.attr('data-load-param' + cnt) || el.attr('data-param' + cnt);
-                        var delay       = el.attr('data-delay' + cnt);
-                        var delay_class = el.attr('data-delay-class' + cnt);
+                        var delay       = el.attr('data-load-delay' + cnt);
+                        var delay_class = el.attr('data-load-delay-class' + cnt);
                         //jQuery.dump(e);
                         if (url) {
                             if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded!, ' + url + ' -> ' + target, 'action');
@@ -441,8 +441,8 @@
                                 target : target,
                                 delay  : delay,
                                 delay_class : delay_class,
-                                syntax_highlight : el.data('syntax-highlight'),
-                                success_after    : el.data('complete')
+                                syntax_highlight : el.data('load-syntax-highlight'),
+                                success_after    : el.data('load-complete')
                             });
                         } else {
                             if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded but no URL defined.', 'warn');
@@ -469,7 +469,7 @@
                             var url    = selected.attr('data-url' + cnt)    || el.attr('data-url' + cnt);
                             var param  = selected.attr('data-param' + cnt)  || el.attr('data-param' + cnt);
                             var target = selected.attr('data-target' + cnt) || el.attr('data-target' + cnt);
-console.log(param);
+
                             //jQuery.dump(e);
                             if (url) {
                                 var delay            = el.attr('data-delay' + cnt);

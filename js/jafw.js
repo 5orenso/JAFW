@@ -213,7 +213,7 @@
                     if (settings.debug) methods.debug(target, 'loader: Show ajax loader.', 'info');
                     if ($('#' + target + '_ajax_loader').length <= 0) {
                         //$('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/tools/wip5b/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:20px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/tools/jafw/ajax-loader.gif" /><div class="clear"></div>').appendTo($('body'));
-                        $('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/jafw/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:5px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/jafw/img/ajax-loader.gif" /><div class="clear"></div>').prependTo($('#' + target));
+                        $('<div id="' + target + '_ajax_loader" class="box_round ajax_loader" style="background-image:url(\'/jafw/img/bg_000000_30.png\'); background-repeat:repeat; background-position:left top; padding:5px; display:none; position:absolute; width:' + ew + 'px; height:' + eh + 'px;"><img src="/jafw/img/ajax-loader.gif" />').prependTo($('#' + target));
                     }
                     var offset = $('#' + target).offset();
                     var h = $('#' + target).height();

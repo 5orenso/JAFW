@@ -1089,7 +1089,7 @@
                 $(css_selector + ' .' + settings.class_accordion).each( function (index) {
                     var el = $(this);
                     $(el).accordion({
-                        //autoHeight : false,
+                        autoHeight : false,
                         heightStyle : el.attr('data-accordion-heightstyle'),
                         active :  el.attr('data-accordion-active'),
                         animate :  el.attr('data-accordion-animate'),

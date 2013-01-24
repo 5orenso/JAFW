@@ -1089,8 +1089,14 @@
                 $(css_selector + ' .' + settings.class_accordion).each( function (index) {
                     var el = $(this);
                     $(el).accordion({
-                        autoHeight : false,
-                        heightStyle : 'fill',
+                        //autoHeight : false,
+                        heightStyle : el.attr('data-accordion-heightstyle'),
+                        active :  el.attr('data-accordion-active'),
+                        animate :  el.attr('data-accordion-animate'),
+                        collapsible :  el.attr('data-accordion-collapsible'),
+                        disabled :  el.attr('data-accordion-disabled'),
+                        header :  el.attr('data-accordion-header'),
+                        icons :  el.attr('data-accordion-icons'),
                         beforeActivate: function (event, ui) {
                             //console.log(event);
                             //console.log(ui);

@@ -594,7 +594,8 @@
                                     if (!el.parent().attr('id'))
                                         el.parent().attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.parent().attr('id');
-                                } else if (toggle_target.match(/^(#|\.).+$/gi) ) {
+                                //} else if (toggle_target.match(/^(#|\.).+$/gi) ) {
+                                } else if (toggle_target.match(/^.+$/gi) ) {
                                     if (!$(el + ' ' + toggle_target).attr('id'))
                                         $(el + ' ' + toggle_target).attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = $(el + ' ' + toggle_target).attr('id');

@@ -605,11 +605,10 @@
                                         pel.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = pel.attr('id');
 
-                                //} else if (toggle_target.match(/^(#|\.).+$/gi) ) {
-                                } else if (toggle_target.match(/^.+$/gi) ) {
-                                    if (!$(el + ' ' + toggle_target).attr('id'))
-                                        $(el + ' ' + toggle_target).attr('id', settings.class_load + '_' + methods.random_number(10000));
-                                    toggle_target = $(el + ' ' + toggle_target).attr('id');
+                                } else if (toggle_target) {
+                                    if (! el.closest(toggle_target).attr('id'))
+                                        el.closest(toggle_target).attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = el.closest(toggle_target).attr('id');
                                 }
                                 if (toggle_state) {
                                     // If toggle_state is set, then make sure class is present inside object.

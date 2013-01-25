@@ -594,9 +594,10 @@
                                         el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
                                 } else if (toggle_target == 'parent') {
-                                    if (!$(el.parent() + toggle_selector).attr('id'))
-                                        $(el.parent() + toggle_selector).attr('id', settings.class_load + '_' + methods.random_number(10000));
-                                    toggle_target = $(el.parent() + toggle_selector).attr('id');
+                                    var parent = el.parent();
+                                    if (!$(parent + toggle_selector).attr('id'))
+                                        $(parent + toggle_selector).attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = $(parent + toggle_selector).attr('id');
                                 //} else if (toggle_target.match(/^(#|\.).+$/gi) ) {
                                 } else if (toggle_target.match(/^.+$/gi) ) {
                                     if (!$(el + ' ' + toggle_target).attr('id'))

@@ -536,7 +536,7 @@
                                 target = el.attr('id');
                             }
                             //if (settings.debug) methods.debug($(this), cnt + ', target=' + target);
-                            var param           = el.attr('data-param' + cnt);
+                            var param           = el.attr('data-param' + cnt) || el.parent().attr('data-param' + cnt);
                             var delay           = el.attr('data-delay' + cnt);
                             var delay_class     = el.attr('data-delay-class' + cnt);
                             var toggle_class    = el.attr('data-toggle-class' + cnt);

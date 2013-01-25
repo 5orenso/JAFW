@@ -536,39 +536,42 @@
                                 target = el.attr('id');
                             }
                             //if (settings.debug) methods.debug($(this), cnt + ', target=' + target);
-                            var param         = el.attr('data-param' + cnt);
-                            var delay         = el.attr('data-delay' + cnt);
-                            var delay_class   = el.attr('data-delay-class' + cnt);
-                            var toggle_class  = el.attr('data-toggle-class' + cnt);
-                            var remove_class  = el.attr('data-remove-class' + cnt);
-                            var toggle_target = el.attr('data-toggle-target' + cnt);
-                            var toggle_state  = el.attr('data-toggle-state' + cnt);
-                            var fn_complete   = el.attr('data-complete' + cnt);
-                            var bubble_up     = el.attr('data-click'); // Sufficient with one bubble up check.
+                            var param           = el.attr('data-param' + cnt);
+                            var delay           = el.attr('data-delay' + cnt);
+                            var delay_class     = el.attr('data-delay-class' + cnt);
+                            var toggle_class    = el.attr('data-toggle-class' + cnt);
+                            var remove_class    = el.attr('data-remove-class' + cnt);
+                            var toggle_target   = el.attr('data-toggle-target' + cnt);
+                            var toggle_selector = el.attr('data-toggle-selector' + cnt);
+                            var toggle_state    = el.attr('data-toggle-state' + cnt);
+                            var fn_complete     = el.attr('data-complete' + cnt);
+                            var bubble_up       = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
-                                target                            = el.parent().attr('data-target' + cnt) || target;
-                                if (!url)    url                  = el.parent().attr('data-url' + cnt);
+                                target                                = el.parent().attr('data-target' + cnt) || target;
+                                if (!url)    url                      = el.parent().attr('data-url' + cnt);
                                 if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ': bubbling up to find closest... url='+url + ', target=' + target, 'info');
-                                if (!param)  param                = el.parent().attr('data-param' + cnt);
-                                if (!delay)  delay                = el.parent().attr('data-delay' + cnt);
-                                if (!delay_class) delay_class     = el.parent().attr('data-delay-class' + cnt);
-                                if (!toggle_class) toggle_class   = el.parent().attr('data-toggle-class' + cnt);
-                                if (!remove_class) remove_class   = el.parent().attr('data-remove-class' + cnt);
-                                if (!toggle_target) toggle_target = el.parent().attr('data-toggle-target' + cnt);
-                                if (!toggle_state) toggle_state   = el.parent().attr('data-toggle-state' + cnt);
-                                if (!fn_complete) fn_complete     = el.parent().attr('data-complete' + cnt);
+                                if (!param)  param                    = el.parent().attr('data-param' + cnt);
+                                if (!delay)  delay                    = el.parent().attr('data-delay' + cnt);
+                                if (!delay_class) delay_class         = el.parent().attr('data-delay-class' + cnt);
+                                if (!toggle_class) toggle_class       = el.parent().attr('data-toggle-class' + cnt);
+                                if (!remove_class) remove_class       = el.parent().attr('data-remove-class' + cnt);
+                                if (!toggle_target) toggle_target     = el.parent().attr('data-toggle-target' + cnt);
+                                if (!toggle_selector) toggle_selector = el.parent().attr('data-toggle-selector' + cnt);
+                                if (!toggle_state) toggle_state       = el.parent().attr('data-toggle-state' + cnt);
+                                if (!fn_complete) fn_complete         = el.parent().attr('data-complete' + cnt);
                             } else if (bubble_up) {
-                                target                            = el.closest(bubble_up).attr('data-target' + cnt) || target;
-                                if (!url)    url                  = el.closest(bubble_up).attr('data-url' + cnt);
+                                target                                = el.closest(bubble_up).attr('data-target' + cnt) || target;
+                                if (!url)    url                      = el.closest(bubble_up).attr('data-url' + cnt);
                                 if (settings.debug) methods.debug($this, 'add_click: ' + css_selector + ': bubbling up to find closest... url='+url + ', target=' + target, 'info');
-                                if (!param)  param                = el.closest(bubble_up).attr('data-param' + cnt);
-                                if (!delay)  delay                = el.closest(bubble_up).attr('data-delay' + cnt);
-                                if (!delay_class) delay_class     = el.closest(bubble_up).attr('data-delay-class' + cnt);
-                                if (!toggle_class) toggle_class   = el.closest(bubble_up).attr('data-toggle-class' + cnt);
-                                if (!remove_class) remove_class   = el.closest(bubble_up).attr('data-remove-class' + cnt);
-                                if (!toggle_target) toggle_target = el.closest(bubble_up).attr('data-toggle-target' + cnt);
-                                if (!toggle_state) toggle_state   = el.closest(bubble_up).attr('data-toggle-state' + cnt);
-                                if (!fn_complete) fn_complete     = el.closest(bubble_up).attr('data-complete' + cnt);
+                                if (!param)  param                    = el.closest(bubble_up).attr('data-param' + cnt);
+                                if (!delay)  delay                    = el.closest(bubble_up).attr('data-delay' + cnt);
+                                if (!delay_class) delay_class         = el.closest(bubble_up).attr('data-delay-class' + cnt);
+                                if (!toggle_class) toggle_class       = el.closest(bubble_up).attr('data-toggle-class' + cnt);
+                                if (!remove_class) remove_class       = el.closest(bubble_up).attr('data-remove-class' + cnt);
+                                if (!toggle_target) toggle_target     = el.closest(bubble_up).attr('data-toggle-target' + cnt);
+                                if (!toggle_selector) toggle_selector = el.closest(bubble_up).attr('data-toggle-selector' + cnt);
+                                if (!toggle_state) toggle_state       = el.closest(bubble_up).attr('data-toggle-state' + cnt);
+                                if (!fn_complete) fn_complete         = el.closest(bubble_up).attr('data-complete' + cnt);
                             }
                             var toggle      = el.attr('data-toggle' + cnt);
                             if (toggle) {
@@ -591,9 +594,9 @@
                                         el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
                                 } else if (toggle_target == 'parent') {
-                                    if (!el.parent().attr('id'))
-                                        el.parent().attr('id', settings.class_load + '_' + methods.random_number(10000));
-                                    toggle_target = el.parent().attr('id');
+                                    if (!$(el.parent() + toggle_selector).attr('id'))
+                                        $(el.parent() + toggle_selector).attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = $(el.parent() + toggle_selector).attr('id');
                                 //} else if (toggle_target.match(/^(#|\.).+$/gi) ) {
                                 } else if (toggle_target.match(/^.+$/gi) ) {
                                     if (!$(el + ' ' + toggle_target).attr('id'))

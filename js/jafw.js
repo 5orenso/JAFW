@@ -595,9 +595,10 @@
                                     toggle_target = el.attr('id');
                                 } else if (toggle_target == 'parent') {
                                     var parent = el.parent();
-                                    if (!$(parent + toggle_selector).attr('id'))
-                                        $(parent + toggle_selector).attr('id', settings.class_load + '_' + methods.random_number(10000));
-                                    toggle_target = $(parent + toggle_selector).attr('id');
+                                    var pel    = $(parent + ' ' + toggle_selector);
+                                    if ( !pel.attr('id') )
+                                        pel.attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = pel.attr('id');
                                 //} else if (toggle_target.match(/^(#|\.).+$/gi) ) {
                                 } else if (toggle_target.match(/^.+$/gi) ) {
                                     if (!$(el + ' ' + toggle_target).attr('id'))

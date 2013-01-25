@@ -528,9 +528,9 @@
                         var no_action = 1;
                         for (var i=1; i<=5; i++) {
                             var cnt    = i==1 ? '' : '-'+i;
-                            var url    = el.attr('data-url' + cnt) || el.attr('href' + cnt);
+                            var url    = el.attr('data-url' + cnt) || el.attr('href' + cnt) || el.parent().attr('data-url' + cnt);
                             // Use target from this element or find closest upwards.
-                            var target = el.attr('data-target' + cnt) || el.closest('.' + settings.class_click).attr('data-target' + cnt);
+                            var target = el.attr('data-target' + cnt) || el.parent().attr('data-target' + cnt) || el.closest('.' + settings.class_click).attr('data-target' + cnt);
                             if (target == 'this') {
                                 if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                 target = el.attr('id');

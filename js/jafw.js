@@ -606,9 +606,16 @@
                                     toggle_target = pel.attr('id');
 
                                 } else if (toggle_target) {
-                                    if (! el.closest(toggle_target).attr('id'))
-                                        el.closest(toggle_target).attr('id', settings.class_load + '_' + methods.random_number(10000));
-                                    toggle_target = el.closest(toggle_target).attr('id');
+                                    var pel = el.closest(toggle_target);
+                                    if (toggle_selector) {
+                                        pel = pel.find(toggle_selector);
+                                    } else {
+                                        pel = pel;
+                                    }
+                                    if ( !pel.attr('id') )
+                                        pel.attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = pel.attr('id');
+
                                 }
                                 if (toggle_state) {
                                     // If toggle_state is set, then make sure class is present inside object.

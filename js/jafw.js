@@ -587,11 +587,17 @@
                                 if (settings.debug) methods.debug($this, 'add_click: toggle_class'+cnt+'=' + toggle_class + ', target=' + toggle_target, 'info');
 
                                 if (toggle_target == 'this' || toggle_target === undefined) {
-                                    if (!el.attr('id')) el.attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    if (!el.attr('id'))
+                                        el.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.attr('id');
                                 } else if (toggle_target == 'parent') {
-                                    if (!el.parent().attr('id')) el.parent().attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    if (!el.parent().attr('id'))
+                                        el.parent().attr('id', settings.class_load + '_' + methods.random_number(10000));
                                     toggle_target = el.parent().attr('id');
+                                } else if (toggle_target.match(/^(#|\.).+$/gi) ) {
+                                    if (!$(el + ' ' + toggle_target).attr('id'))
+                                        $(el + ' ' + toggle_target).attr('id', settings.class_load + '_' + methods.random_number(10000));
+                                    toggle_target = $(el + ' ' + toggle_target).attr('id');
                                 }
                                 if (toggle_state) {
                                     // If toggle_state is set, then make sure class is present inside object.

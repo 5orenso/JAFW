@@ -536,15 +536,15 @@
                                 target = el.attr('id');
                             }
                             //if (settings.debug) methods.debug($(this), cnt + ', target=' + target);
-                            var param           = el.attr('data-param' + cnt) || el.parent().attr('data-param' + cnt);
-                            var delay           = el.attr('data-delay' + cnt);
-                            var delay_class     = el.attr('data-delay-class' + cnt);
-                            var toggle_class    = el.attr('data-toggle-class' + cnt);
-                            var remove_class    = el.attr('data-remove-class' + cnt);
-                            var toggle_target   = el.attr('data-toggle-target' + cnt);
-                            var toggle_selector = el.attr('data-toggle-selector' + cnt);
-                            var toggle_state    = el.attr('data-toggle-state' + cnt);
-                            var fn_complete     = el.attr('data-complete' + cnt);
+                            var param           = el.attr('data-param' + cnt)           || el.parent().attr('data-param' + cnt);
+                            var delay           = el.attr('data-delay' + cnt)           || el.parent().attr('data-delay' + cnt);
+                            var delay_class     = el.attr('data-delay-class' + cnt)     || el.parent().attr('data-delay-class' + cnt);
+                            var toggle_class    = el.attr('data-toggle-class' + cnt)    || el.parent().attr('data-toggle-class' + cnt);
+                            var remove_class    = el.attr('data-remove-class' + cnt)    || el.parent().attr('data-remove-class' + cnt);
+                            var toggle_target   = el.attr('data-toggle-target' + cnt)   || el.parent().attr('data-toggle-target' + cnt);
+                            var toggle_selector = el.attr('data-toggle-selector' + cnt) || el.parent().attr('data-toggle-selector' + cnt);
+                            var toggle_state    = el.attr('data-toggle-state' + cnt)    || el.parent().attr('data-toggle-state' + cnt);
+                            var fn_complete     = el.attr('data-complete' + cnt)        || el.parent().attr('data-complete' + cnt);
                             var bubble_up       = el.attr('data-click'); // Sufficient with one bubble up check.
                             if (bubble_up == 'true') {
                                 target                                = el.parent().attr('data-target' + cnt) || target;

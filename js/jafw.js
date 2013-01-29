@@ -1214,7 +1214,7 @@
                                 //var required    = el.data('required');
 
                                 //jQuery.dump(e);
-                                if (url && target) {
+                                if (url) {
                                     if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited!, ' + url + ' -> ' + target, 'action');
                                     // Run ajax call...
                                     methods.ajax({

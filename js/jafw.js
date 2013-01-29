@@ -1210,6 +1210,7 @@
                                 var delay       = el.attr('data-delay' + cnt);
                                 var delay_class = el.attr('data-delay-class' + cnt);
                                 var modal_close = el.attr('data-modal-close');
+                                var fn_complete = el.attr('data-complete' + cnt);
                                 //var required    = el.data('required');
 
                                 //jQuery.dump(e);
@@ -1231,7 +1232,8 @@
                                                 if (t) e.attr('value', t);
                                                 e.removeClass(settings.class_submit_in_progress);
                                             });
-                                        }
+                                        },
+                                        success_after : fn_complete
                                     });
                                 } else {
                                     if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited but no URL defined.', 'warn');

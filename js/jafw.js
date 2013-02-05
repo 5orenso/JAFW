@@ -17,6 +17,7 @@
         class_select       : 'jafw-select',
         class_click        : 'jafw-click',
         class_change       : 'jafw-change',
+        class_blur         : 'jafw-blur',
         class_keyup        : 'jafw-keyup',
         class_pageshow     : 'jafw-pageshow',
         class_ckeditor     : 'jafw-ckeditor',
@@ -185,6 +186,7 @@
                 methods.add_select($this, css_selector);
                 methods.add_click($this, css_selector);
                 methods.add_change($this, css_selector);
+                methods.add_blur($this, css_selector);
                 methods.add_keyup($this, css_selector);
                 methods.add_pageshow($this, css_selector);
                 methods.add_ckeditor($this, css_selector);
@@ -703,6 +705,17 @@
                         methods.on_change (event);
                     },
                     changed:  function (event) {
+                        methods.on_change (event);
+                    }
+                });
+            },
+
+
+            add_blur : function ($this, css_selector) {
+                if (settings.debug) methods.debug($this, 'add_blur: ' + css_selector + ' .' + settings.class_blur, 'info');
+                $(css_selector + ' .' + settings.class_blur).bind({
+                    blur:  function (event) {
+                        // TODO: Check if value has been blurred before submitting.
                         methods.on_change (event);
                     }
                 });

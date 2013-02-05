@@ -714,7 +714,7 @@
             add_blur : function ($this, css_selector) {
                 if (settings.debug) methods.debug($this, 'add_blur: ' + css_selector + ' .' + settings.class_blur, 'info');
                 $(css_selector + ' .' + settings.class_blur).bind({
-                    blur:  function (event) {
+                    focusout:  function (event) {
                         // TODO: Check if value has been blurred before submitting.
                         methods.on_change (event);
                     }

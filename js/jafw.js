@@ -547,6 +547,7 @@
                                 var remove_class    = el.attr('data-remove-class' + cnt)    || el.parent().attr('data-remove-class' + cnt);
                                 var toggle_target   = el.attr('data-toggle-target' + cnt)   || el.parent().attr('data-toggle-target' + cnt);
                                 var toggle_selector = el.attr('data-toggle-selector' + cnt) || el.parent().attr('data-toggle-selector' + cnt);
+                                var toggle_global   = el.attr('data-toggle-global' + cnt)   || el.parent().attr('data-toggle-global' + cnt);
                                 var toggle_state    = el.attr('data-toggle-state' + cnt)    || el.parent().attr('data-toggle-state' + cnt);
                                 var fn_complete     = el.attr('data-complete' + cnt)        || el.parent().attr('data-complete' + cnt);
                                 var bubble_up       = el.attr('data-click'); // Sufficient with one bubble up check.
@@ -561,6 +562,7 @@
                                     if (!remove_class) remove_class       = el.parent().attr('data-remove-class' + cnt);
                                     if (!toggle_target) toggle_target     = el.parent().attr('data-toggle-target' + cnt);
                                     if (!toggle_selector) toggle_selector = el.parent().attr('data-toggle-selector' + cnt);
+                                    if (!toggle_global) toggle_global     = el.parent().attr('data-toggle-global' + cnt);
                                     if (!toggle_state) toggle_state       = el.parent().attr('data-toggle-state' + cnt);
                                     if (!fn_complete) fn_complete         = el.parent().attr('data-complete' + cnt);
                                 } else if (bubble_up) {
@@ -574,6 +576,7 @@
                                     if (!remove_class) remove_class       = el.closest(bubble_up).attr('data-remove-class' + cnt);
                                     if (!toggle_target) toggle_target     = el.closest(bubble_up).attr('data-toggle-target' + cnt);
                                     if (!toggle_selector) toggle_selector = el.closest(bubble_up).attr('data-toggle-selector' + cnt);
+                                    if (!toggle_global) toggle_global     = el.closest(bubble_up).attr('data-toggle-global' + cnt);
                                     if (!toggle_state) toggle_state       = el.closest(bubble_up).attr('data-toggle-state' + cnt);
                                     if (!fn_complete) fn_complete         = el.closest(bubble_up).attr('data-complete' + cnt);
                                 }
@@ -610,7 +613,12 @@
                                         toggle_target = pel.attr('id');
 
                                     } else if (toggle_target) {
-                                        var pel = el.closest(toggle_target);
+                                        var pel;
+                                        if (toggle_global) {
+                                            pel = $(toggle_target);
+                                        } else {
+                                            pel = el.closest(toggle_target);
+                                        }
                                         if (toggle_selector) {
                                             pel = pel.find(toggle_selector);
                                         } else {

@@ -629,6 +629,9 @@
                                         toggle_target = pel.attr('id');
 
                                     }
+
+                                    if (settings.debug) methods.debug($this, 'add_click: toggle_target'+cnt+'=' + toggle_target + ', state=' + toggle_state, 'info');
+
                                     if (toggle_state) {
                                         // If toggle_state is set, then make sure class is present inside object.
                                         $('#' + toggle_target).toggleClass(toggle_class, true);

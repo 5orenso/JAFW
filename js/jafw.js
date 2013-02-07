@@ -624,7 +624,7 @@
                                         } else {
                                             pel = pel;
                                         }
-                                        if (settings.debug) methods.debug($this, 'add_click: toggle_target'+cnt+': pel=' + pel.tagname + ', pel=' + pel, 'info');
+                                        if (settings.debug) methods.debug($this, 'add_click: toggle_target'+cnt+': pel=' + pel.nodeName.toLowerCase() + ', pel=' + pel, 'info');
                                         if ( !pel.attr('id') )
                                             pel.attr('id', settings.class_load + '_' + methods.random_number(10000));
                                         toggle_target = pel.attr('id');

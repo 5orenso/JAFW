@@ -797,23 +797,27 @@
                     var name        = el.attr('name');
                     var delay       = el.attr('data-delay' + cnt);
                     var delay_class = el.attr('data-delay-class' + cnt);
+                    var default_val = el.attr('data-default-value' + cnt);
+                    var is_changed  = (val === default_val ? false : true);
 
-                    //jQuery.dump(e);
-                    if (url) {
-                        // Run ajax call...
-                        var data = $.extend({}, methods.query_string(param), {'f' : name, 'value' : val});
-                        if (settings.debug) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
-                        methods.ajax({
-                            url    : url,
-                            param  : data, //param + '&f=' + name + '&value=' + val,
-                            target : target,
-                            delay  : delay,
-                            delay_class : delay_class,
-                            syntax_highlight : el.data('syntax-highlight'),
-                            success_after    : el.data('complete')
-                        });
-                    } else {
-                        if (settings.debug >= 3) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed but no URL defined.', 'warn');
+                    if (is_changed) {
+                        //jQuery.dump(e);
+                        if (url) {
+                            // Run ajax call...
+                            var data = $.extend({}, methods.query_string(param), {'f' : name, 'value' : val});
+                            if (settings.debug) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
+                            methods.ajax({
+                                url    : url,
+                                param  : data, //param + '&f=' + name + '&value=' + val,
+                                target : target,
+                                delay  : delay,
+                                delay_class : delay_class,
+                                syntax_highlight : el.data('syntax-highlight'),
+                                success_after    : el.data('complete')
+                            });
+                        } else {
+                            if (settings.debug >= 3) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed but no URL defined.', 'warn');
+                        }
                     }
                 } // for (i=0; i<=5; i++)
             },

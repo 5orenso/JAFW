@@ -780,7 +780,8 @@
                     if (settings.debug) methods.debug($(this), 'on_change: event.sender=' + event.sender.id + ', getData(): ' + val + ', el:' + el, 'msg');
                 } else {
                     el = $(event.target);
-                    val = escape( el.val() ); //methods.html_encode( methods.html_decode(el.val()) );
+                    //val = escape( el.val() ); //methods.html_encode( methods.html_decode(el.val()) );
+                    val = el.val(); //methods.html_encode( methods.html_decode(el.val()) );
                 }
 
                 for (var i=1; i<=5; i++) {

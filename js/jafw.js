@@ -775,7 +775,8 @@
                     var name = event.sender.name;
                     var edit = CKEDITOR.instances[name];
                     if (edit.getData) {
-                        val = escape(edit.getData());
+                        //val = escape(edit.getData());
+                        val = edit.getData();
                     }
                     if (settings.debug) methods.debug($(this), 'on_change: event.sender=' + event.sender.id + ', getData(): ' + val + ', el:' + el, 'msg');
                 } else {

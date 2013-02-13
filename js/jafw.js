@@ -257,7 +257,7 @@
                 $.ajax({
                     url  : opt.url,
                     data : param,
-                    type : 'GET',
+                    type : 'POST',
                     //crossDomain: true,
                     //mimeType : 'text/plain; charset=iso-8859-1',
                     //contentType: 'application/x-www-form-urlencoded;charset=ISO-8859-1',

@@ -289,7 +289,7 @@
                     // from the server, no errors with the data).
                     success: function (data, textStatus, jqXHR) {
                         var target = $('#' + opt.target);
-                        if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width() + ' prepend' + opt.prepend + ' append: ' + opt.append, 'network');
+                        if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width() + ' prepend: ' + opt.prepend + ' append: ' + opt.append, 'network');
 
                         // If function. Then execute it.
                         if (opt.success_before) {
@@ -550,6 +550,11 @@
                                 var toggle_global   = el.attr('data-toggle-global' + cnt)   || el.parent().attr('data-toggle-global' + cnt);
                                 var toggle_state    = el.attr('data-toggle-state' + cnt)    || el.parent().attr('data-toggle-state' + cnt);
                                 var fn_complete     = el.attr('data-complete' + cnt)        || el.parent().attr('data-complete' + cnt);
+                                var keep_open        = el.attr('data-keep-open' + cnt)      || el.parent().attr('data-keep-open' + cnt);
+                                var load_toggle      = el.attr('data-load-toggle' + cnt)    || el.parent().attr('data-load-toggle' + cnt);
+                                var append           = el.attr('data-append' + cnt)         || el.parent().attr('data-append' + cnt);
+                                var prepend          = el.attr('data-prepend' + cnt)        || el.parent().attr('data-prepend' + cnt);
+                                var update_timestamp = el.attr('data-update' + cnt)         || el.parent().attr('data-update' + cnt);
                                 var bubble_up       = el.attr('data-click'); // Sufficient with one bubble up check.
                                 if (bubble_up == 'true') {
                                     target                                = el.parent().attr('data-target' + cnt) || target;
@@ -565,6 +570,11 @@
                                     if (!toggle_global) toggle_global     = el.parent().attr('data-toggle-global' + cnt);
                                     if (!toggle_state) toggle_state       = el.parent().attr('data-toggle-state' + cnt);
                                     if (!fn_complete) fn_complete         = el.parent().attr('data-complete' + cnt);
+                                    if (!keep_open) keep_open             = el.parent().attr('data-keep-open' + cnt);
+                                    if (!load_toggle) load_toggle         = el.parent().attr('data-load-toggle' + cnt);
+                                    if (!append) append                   = el.parent().attr('data-append' + cnt);
+                                    if (!prepend) prepend                 = el.parent().attr('data-prepend' + cnt);
+                                    if (!update_timestamp)                = el.parent().attr('data-update' + cnt);
                                 } else if (bubble_up) {
                                     target                                = el.closest(bubble_up).attr('data-target' + cnt) || target;
                                     if (!url)    url                      = el.closest(bubble_up).attr('data-url' + cnt);
@@ -579,6 +589,11 @@
                                     if (!toggle_global) toggle_global     = el.closest(bubble_up).attr('data-toggle-global' + cnt);
                                     if (!toggle_state) toggle_state       = el.closest(bubble_up).attr('data-toggle-state' + cnt);
                                     if (!fn_complete) fn_complete         = el.closest(bubble_up).attr('data-complete' + cnt);
+                                    if (!keep_open) keep_open             = el.closest(bubble_up).attr('data-keep-open' + cnt);
+                                    if (!load_toggle) load_toggle         = el.closest(bubble_up).attr('data-load-toggle' + cnt);
+                                    if (!append) append                   = el.closest(bubble_up).attr('data-append' + cnt);
+                                    if (!prepend) prepend                 = el.closest(bubble_up).attr('data-prepend' + cnt);
+                                    if (!update_timestamp)                = el.closest(bubble_up).attr('data-update' + cnt);
                                 }
                                 var toggle      = el.attr('data-toggle' + cnt);
                                 if (toggle) {
@@ -661,11 +676,6 @@
                                     }
                                     no_action = 0;
                                 }
-                                var keep_open   = el.attr('data-keep-open' + cnt);
-                                var load_toggle = el.attr('data-load-toggle' + cnt);
-                                var append      = el.attr('data-append' + cnt);
-                                var prepend     = el.attr('data-prepend' + cnt);
-                                var update_timestamp = el.data('update');
 
                                 //jQuery.dump(e);
                                 if (url) {

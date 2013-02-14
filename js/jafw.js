@@ -209,8 +209,8 @@
 
 
             loader : function (target, action) {
-                var eh = 16;
-                var ew = 16;
+                var eh = 32;
+                var ew = 32;
                 if (action == 'show') {
                     if (settings.debug) methods.debug(target, 'loader: Show ajax loader.', 'info');
                     if ($('#' + target + '_ajax_loader').length <= 0) {

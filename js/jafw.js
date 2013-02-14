@@ -327,9 +327,9 @@
 
                         // Inserting data to target.
                         if (opt.append) {
-                            target.appendTo(data);
+                            $(data).appendTo(target);
                         } else if (opt.prepend) {
-                            target.prependTo(data);
+                            $(data).prependTo(target);
                         } else {
                             target.html(data);
                         }

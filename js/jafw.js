@@ -574,7 +574,7 @@
                                     if (!load_toggle) load_toggle         = el.parent().attr('data-load-toggle' + cnt);
                                     if (!append) append                   = el.parent().attr('data-append' + cnt);
                                     if (!prepend) prepend                 = el.parent().attr('data-prepend' + cnt);
-                                    if (!update_timestamp)                = el.parent().attr('data-update' + cnt);
+                                    if (!update_timestamp) update_timestamp = el.parent().attr('data-update' + cnt);
                                 } else if (bubble_up) {
                                     target                                = el.closest(bubble_up).attr('data-target' + cnt) || target;
                                     if (!url)    url                      = el.closest(bubble_up).attr('data-url' + cnt);
@@ -593,7 +593,7 @@
                                     if (!load_toggle) load_toggle         = el.closest(bubble_up).attr('data-load-toggle' + cnt);
                                     if (!append) append                   = el.closest(bubble_up).attr('data-append' + cnt);
                                     if (!prepend) prepend                 = el.closest(bubble_up).attr('data-prepend' + cnt);
-                                    if (!update_timestamp)                = el.closest(bubble_up).attr('data-update' + cnt);
+                                    if (!update_timestamp) update_timestamp = el.closest(bubble_up).attr('data-update' + cnt);
                                 }
                                 var toggle      = el.attr('data-toggle' + cnt);
                                 if (toggle) {

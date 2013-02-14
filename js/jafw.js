@@ -289,7 +289,7 @@
                     // from the server, no errors with the data).
                     success: function (data, textStatus, jqXHR) {
                         var target = $('#' + opt.target);
-                        if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width(), 'network');
+                        if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success, #' + opt.target + ', param: ' + param + ' -> ' + textStatus + '. Target info: hidden="' + target.is(':hidden') + '", visible="' + target.is(':visible') + '",  el: ' + target.attr('id') + ' h=' + target.height() + ' w=' + target.width() + ' prepend' + opt.prepend + ' append: ' + opt.append, 'network');
 
                         // If function. Then execute it.
                         if (opt.success_before) {
@@ -327,9 +327,9 @@
 
                         // Inserting data to target.
                         if (opt.append) {
-                            target.append(data);
+                            target.appendTo(data);
                         } else if (opt.prepend) {
-                            target.prepend(data);
+                            target.prependTo(data);
                         } else {
                             target.html(data);
                         }

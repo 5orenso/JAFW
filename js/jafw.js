@@ -277,7 +277,7 @@
                     // synchronous requests.
                     complete : function (jqXHR, textStatus, options) {
                         if (opt.complete) {
-                            var fn = eval(opt.complete);
+                            var fn = new Function(opt.complete);
                             if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + opt.complete + '" object: ' + fn, 'action');
                             if (jQuery.isFunction(fn)) {
                                 if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
@@ -293,7 +293,7 @@
 
                         // If function. Then execute it.
                         if (opt.success_before) {
-                            var fn = eval(opt.success_before);
+                            var fn = new Function(opt.success_before);
                             if (jQuery.isFunction(fn)) {
                                 fn(data, textStatus, jqXHR);
                             }
@@ -359,7 +359,7 @@
 
                         // If function. Then execute it.
                         if (opt.success_after) {
-                            var fn = eval(opt.success_after);
+                            var fn = new Function(opt.success_after);
                             if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success_after function is present: "' + opt.success_after + '" object: ' + fn, 'info');
                             if (jQuery.isFunction(fn)) {
                                 if (settings.debug) methods.debug($(this), 'ajax: success: Ajax success_after isFunction is true. Running function.', 'action');
@@ -718,7 +718,7 @@
                                 } else {
                                     if (settings.debug >= 3) methods.debug($(this), 'add_click: ' + event.target + ' is clicked but no URL defined.', 'warn');
                                     if (fn_complete) {
-                                        var fn = eval(fn_complete);
+                                        var fn = new Function(fn_complete);
                                         if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + fn_complete + '" object: ' + fn, 'action');
                                         if (jQuery.isFunction(fn)) {
                                             if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');

@@ -293,9 +293,13 @@
 
                         // If function. Then execute it.
                         if (opt.success_before) {
-                            var fn = new Function(opt.success_before);
-                            if (jQuery.isFunction(fn)) {
-                                fn(data, textStatus, jqXHR);
+                            if (jQuery.isFunction(opt.success_before)) {
+                                opt.success_before(data, textStatus, jqXHR);
+                            } else {
+                                var fn = new Function(opt.success_before);
+                                if (jQuery.isFunction(fn)) {
+                                    fn(data, textStatus, jqXHR);
+                                }
                             }
                         }
 

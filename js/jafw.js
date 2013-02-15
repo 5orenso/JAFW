@@ -722,7 +722,7 @@
                                         if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete function is present: "' + fn_complete + '" object: ' + fn, 'action');
                                         if (jQuery.isFunction(fn)) {
                                             if (settings.debug) methods.debug($(this), 'ajax: complete: Ajax complete isFunction is true. Running function.', 'action');
-                                            fn(jqXHR, textStatus, options);
+                                            fn(undefined, 'no URL', options);
                                         }
                                     }
                                 }

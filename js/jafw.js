@@ -685,10 +685,9 @@
                                     if (!el.data('event-default')) event.preventDefault();
                                     var fn_param_data;
                                     if (fn_param) {
-                                        var fn = eval(fn_param);
+                                        var fn = new Function(fn_param);
                                         if (jQuery.isFunction(fn)) {
                                             fn_param_data = fn(data);
-                                            $.extend(data, fn_param_data);
                                         }
                                     }
                                     var data = $.extend({}, methods.query_string(param), {

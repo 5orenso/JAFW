@@ -1119,8 +1119,9 @@
                         'dateFormat': format,
                         'changeYear' : change_year,
                         'firstDay': 1,
-                        onSelect: function() {
-                            $(this).change();
+                        onSelect: function(dateText, inst) {
+                            $(this).val(dateText);
+                            $(this).blur();
                         }
                     });
                 });

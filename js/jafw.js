@@ -1118,7 +1118,10 @@
                     $(el).datepicker({
                         'dateFormat': format,
                         'changeYear' : change_year,
-                        'firstDay': 1
+                        'firstDay': 1,
+                        onSelect: function() {
+                            $(this).change();
+                        }
                     });
                 });
             },

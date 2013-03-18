@@ -817,7 +817,7 @@
 
                     // Check if this is a checkbox.
                     if (el.is(':checkbox')) {
-                        val = (el.is(':checked') ? el.val() : null);
+                        val = (el.is(':checked') ? undefined : el.val());
                     } else {
                         val = el.val();
                     }

@@ -746,6 +746,11 @@
                     },
                     changed:  function (event) {
                         methods.on_change (event);
+                    },
+                    mousedown: function (event) {
+                        if (!$(this).is(':checked')) {
+                            $(this).trigger("change");
+                        }
                     }
                 });
             },

@@ -748,8 +748,10 @@
                         methods.on_change (event);
                     },
                     mousedown: function (event) {
-                        if (!$(this).is(':checked')) {
-                            $(this).trigger("change");
+                        el = $(event.target);
+                        // Check if this is a checkbox.
+                        if (el.is(':checkbox')) {
+                            el.trigger('change');
                         }
                     }
                 });

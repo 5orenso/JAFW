@@ -32,7 +32,7 @@
         class_endless      : 'jafw-endless',
         class_serverpush   : 'jafw-serverpush',
         class_modal        : 'jafw-modal',
-        class_tooltip        : 'jafw-tooltip',
+        class_tooltip      : 'jafw-tooltip',
         class_submit       : 'jafw-submit',
 
         class_required_field     : 'jafw-required-field',

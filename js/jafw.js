@@ -20,7 +20,6 @@
         class_blur         : 'jafw-blur',
         class_keyup        : 'jafw-keyup',
         class_pageshow     : 'jafw-pageshow',
-        class_ckeditor     : 'jafw-ckeditor',
         class_sortable     : 'jafw-sortable',
         class_datepicker   : 'jafw-datepicker',
         class_tabs         : 'jafw-tabs',
@@ -44,7 +43,6 @@
     var delay_function = {};
     var settings       = {};
     var query_string   = {};
-        var ckeditors      = [];
 
         // public methods
         // to keep the $.fn namespace uncluttered, collect all of the plugin's methods in an object literal and call
@@ -189,7 +187,6 @@
                 methods.add_blur($this, css_selector);
                 methods.add_keyup($this, css_selector);
                 methods.add_pageshow($this, css_selector);
-                methods.add_ckeditor($this, css_selector);
                 methods.add_sortable($this, css_selector);
                 methods.add_datepicker($this, css_selector);
                 methods.add_tabs($this, css_selector);
@@ -257,7 +254,7 @@
                 $.ajax({
                     url  : opt.url,
                     data : param,
-                    type : 'GET',
+                    type : opt.type || 'GET',
                     //crossDomain: true,
                     //mimeType : 'text/plain; charset=iso-8859-1',
                     //contentType: 'application/x-www-form-urlencoded;charset=ISO-8859-1',
@@ -437,11 +434,13 @@
                         var param       = el.attr('data-load-param' + cnt) || el.attr('data-param' + cnt);
                         var delay       = el.attr('data-load-delay' + cnt);
                         var delay_class = el.attr('data-load-delay-class' + cnt);
+                        var type        = el.attr('data-type' + cnt);
                         //jQuery.dump(e);
                         if (url) {
                             if (settings.debug) methods.debug($(this), 'add_load: ' + el + ' is loaded!, ' + url + ' -> ' + target, 'action');
                             // Run ajax call...
                             methods.ajax({
+                                type   : type,
                                 url    : url,
                                 param  : param,
                                 target : target,
@@ -487,6 +486,8 @@
                                 var keep_open        = el.attr('data-keep-open' + cnt);
                                 var load_toggle      = el.attr('data-load-toggle' + cnt);
                                 var fn_complete      = el.attr('data-complete' + cnt);
+                                var type             = el.attr('data-type' + cnt);
+
 
                                 if (!el.data('event-default')) event.preventDefault();
                                 var data = $.extend({}, methods.query_string(param), {
@@ -498,6 +499,7 @@
                                 });
                                 if (settings.debug) methods.debug($(this), 'add_select: ' + event.target + ' is selected!, ' + url + ' -> #' + target, 'action' + ', param=' + param);
                                 methods.ajax({
+                                    type             : type,
                                     url              : url,
                                     param            : data,
                                     target           : target,
@@ -560,6 +562,7 @@
                                 var append           = el.attr('data-append' + cnt)         || el.parent().attr('data-append' + cnt);
                                 var prepend          = el.attr('data-prepend' + cnt)        || el.parent().attr('data-prepend' + cnt);
                                 var update_timestamp = el.attr('data-update' + cnt)         || el.parent().attr('data-update' + cnt);
+                                var type             = el.attr('data-type' + cnt)           || el.parent().attr('data-type' + cnt)
                                 var bubble_up       = el.attr('data-click'); // Sufficient with one bubble up check.
                                 if (bubble_up == 'true') {
                                     target                                = el.parent().attr('data-target' + cnt) || target;
@@ -581,6 +584,8 @@
                                     if (!append) append                   = el.parent().attr('data-append' + cnt);
                                     if (!prepend) prepend                 = el.parent().attr('data-prepend' + cnt);
                                     if (!update_timestamp) update_timestamp = el.parent().attr('data-update' + cnt);
+                                    if (!type) type                         = el.parent().attr('data-type' + cnt);
+
                                 } else if (bubble_up) {
                                     target                                = el.closest(bubble_up).attr('data-target' + cnt) || target;
                                     if (!url) url                         = el.closest(bubble_up).attr('data-url' + cnt);
@@ -601,6 +606,7 @@
                                     if (!append) append                   = el.closest(bubble_up).attr('data-append' + cnt);
                                     if (!prepend) prepend                 = el.closest(bubble_up).attr('data-prepend' + cnt);
                                     if (!update_timestamp) update_timestamp = el.closest(bubble_up).attr('data-update' + cnt);
+                                    if (!type) type                         = el.closest(bubble_up).attr('data-type' + cnt);
                                 }
                                 var toggle      = el.attr('data-toggle' + cnt);
                                 if (toggle) {
@@ -704,6 +710,7 @@
 
                                     if (settings.debug) methods.debug($(this), 'add_click: ' + event.target + ' is clicked!, ' + url + ' -> #' + target, 'action');
                                     methods.ajax({
+                                        type             : type,
                                         url              : url,
                                         param            : data,
                                         target           : target,
@@ -802,25 +809,13 @@
                     if (event.stopPropagation) event.stopPropagation();
                 } catch (err) {}
 
-                //var e  = $(this); //event.target;
-                if (event.sender) {
-                    el = $(event.sender.element);
-                    var name = event.sender.name;
-                    var edit = CKEDITOR.instances[name];
-                    if (edit.getData) {
-                        //val = escape(edit.getData());
-                        val = edit.getData();
-                    }
-                    if (settings.debug) methods.debug($(this), 'on_change: event.sender=' + event.sender.id + ', getData(): ' + val + ', el:' + el, 'msg');
-                } else {
-                    el = $(event.target);
+                el = $(event.target);
 
-                    // Check if this is a checkbox.
-                    if (el.is(':checkbox')) {
-                        val = (el.is(':checked') ? '' : el.val());
-                    } else {
-                        val = el.val();
-                    }
+                // Check if this is a checkbox.
+                if (el.is(':checkbox')) {
+                    val = (el.is(':checked') ? '' : el.val());
+                } else {
+                    val = el.val();
                 }
 
                 for (var i=1; i<=5; i++) {
@@ -839,6 +834,7 @@
                     var delay_class = el.attr('data-delay-class' + cnt);
                     var default_val = el.attr('data-default-value' + cnt);
                     var is_changed  = (val === default_val ? false : true);
+                    var type        = el.attr('data-type' + cnt);
 
                     if (is_changed) {
                         //jQuery.dump(e);
@@ -847,6 +843,7 @@
                             var data = $.extend({}, methods.query_string(param), {'f' : name, 'value' : val});
                             if (settings.debug) methods.debug($(this), 'on_change: ' + el.attr('id') + ' is changed!, ' + url + '?' + data + ' -> #' + target, 'action');
                             methods.ajax({
+                                type   : type,                                
                                 url    : url,
                                 param  : data, //param + '&f=' + name + '&value=' + val,
                                 target : target,
@@ -878,6 +875,7 @@
                     var delay_class = el.attr('data-delay-class' + cnt);
                     var handle      = el.attr('data-handle' + cnt);
                     var connect     = el.attr('data-connect') || settings.class_sortable;
+                    var type        = el.attr('data-type' + cnt);
 
                     el.sortable({
                         connectWith: '.' + connect,
@@ -898,6 +896,7 @@
                                 // Run ajax call...
                                 if (settings.debug) methods.debug($(this), 'add_sortable: ' + event.target + ' is sorted!, ' + url + ' -> #' + target, 'action');
                                 methods.ajax({
+                                    type   : type,
                                     append : append,
                                     url    : url,
                                     param  : param2 + '&' + param,
@@ -918,203 +917,6 @@
                 });
             },
 
-
-            add_ckeditor : function ($this, css_selector) {
-                if (settings.debug) methods.debug($this, 'add_ckeditor: ' + css_selector + ' .' + settings.class_ckeditor, 'info');
-                $(css_selector + ' .' + settings.class_ckeditor).each( function (index) {
-                    var el = $(this);
-                    if (!el.attr('id')) el.attr('id', settings.class_ckeditor + '_' + methods.random_number(10000));
-                    //el.attr('id', settings.class_ckeditor + '_' + methods.random_number(100000));
-                    var id   = el.attr('id');
-                    var h    = el.attr('data-height') || 100;
-                    var w    = el.attr('data-width') || 400;
-                    var hide = el.attr('data-hide');
-                    var save_on_blur     = el.attr('data-save-on-blur');
-                    var save_on_snapshot = el.attr('data-save-on-snapshot');
-                    var paste_url        = el.attr('data-paste-url');
-
-                    //-------------------------------------------------------------------------
-                    // if (typeof(editor) == 'undefined')
-                    //  var editor=null;
-                    //
-                    // function ck_delete(editor) {
-                    //  if(typeof(editor) != 'undefined' && editor!=null)
-                    //      editor.destroy();
-                    // }
-                    //
-                    // function ck_init(ck_inst_name) {
-                    //  var el_id = document.getElementById(ck_inst_name);
-                    //  if (typeof(el_id) != 'undefined' && el_id!=null) {
-                    //      if (typeof(editor) == 'undefined' || editor==null) {
-                    //      editor=CKEDITOR.replace( ck_inst_name );
-                    //      } else {
-                    //      ck_delete(editor);
-                    //      editor=null;
-                    //      editor = CKEDITOR.replace( ck_inst_name );
-                    //      }
-                    //  }
-                    // }
-
-
-                    //-------------------------------------------------------------------------
-                    var editor_config = {
-                        stylesSet : [
-                            {name:'Facts',element:'div', attributes:{'class':'wip5facts'}},
-                            {name:'Facts2',element:'div', attributes:{'class':'wip5facts2'}},
-                            {name:'Full quote',element:'div', attributes:{'class':'wip5quotefull'}},
-                            {name:'Left quote',element:'div', attributes:{'class':'wip5quoteleft'}},
-                            {name:'Right quote',element:'div', attributes:{'class':'wip5quoteright'}},
-                            {name:'Full quote2',element:'div', attributes:{'class':'wip5quotefull2'}},
-                            {name:'Big',element:'big'},
-                            {name:'Small',element:'small'},
-                            {name:'Typewriter',element:'tt'},
-                            {name:'Computer Code',element:'code'},
-                            {name:'Keyboard Phrase',element:'kbd'},
-                            {name:'Sample Text',element:'samp'},
-                            {name:'Variable',element:'var'},
-                            {name:'Deleted Text',element:'del'},
-                            {name:'Inserted Text',element:'ins'},
-                            {name:'Cited Work',element:'cite'}
-                        ],
-                        //font_defaultLabel : 'Arial',
-                        toolbarStartupExpanded : (hide ? false : true),
-                        baseHref : '/',
-                        height : h,
-                        width : w,
-                        entities : true,
-                        FormatSource : false,
-                        //forceSimpleAmpersand : true,
-                        //entities_latin : true,
-                        //entities_greek : false,
-                        toolbar :[
-                            ['Format'], ['Styles'],
-                            ['Undo', 'Redo', 'PasteText'],
-                            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Link', 'Unlink', 'Table'],
-                            ['Wip5form2mail', 'Wip5rss', 'Wip5rpl', 'Wip5boxleft', 'Wip5boxright', 'Wip5boxup', 'Wip5boxdown'],
-                            ['Source']
-                        ],
-                        //enterMode : CKEDITOR.ENTER_BR,
-                        //shiftEnterMode: CKEDITOR.ENTER_P,
-                        on : {
-                            //paste : function (evt) {
-                            //  var editor = evt.editor;
-                            //  evt.stop(); // we don't let editor to paste data, only for current event
-                            //  // show loader that blocks editor changes
-                            //  $.post('clean.php', {html: evt.data.html}, function (data) {
-                            //      editor.insertHtml( data.html ); // text will be inserted at correct place
-                            //      // hide loader
-                            //  }, 'json');
-                            //},
-                            blur : function (event) {
-                                methods.on_change (event);
-                            },
-                            //saveSnapshot : function (event) {
-                            //  methods.on_change (event);
-                            //},
-                            paste : function (ev) {
-                                if (settings.debug) methods.debug($this, 'add_ckeditor: something is pasted into editor. : "' + ev.data.html + '". Posting to: ' + paste_url + settings.class_ckeditor, 'action');
-                                var editor = ev.editor;
-                                if (1==2 && paste_url) {
-                                    ev.stop(); // we don't let editor to paste data, only for current event
-                                    // show loader that blocks editor changes
-                                    $.post(paste_url, { html: ev.data.html }, function (data) {
-                                        editor.insertHtml( data.html ); // text will be inserted at correct place
-                                    }, 'json');
-                                }
-                            },
-                            change : function (ev) {
-                                //if (settings.debug) console.log(ev);
-                                methods.on_change (ev);
-                            },
-                            instanceReady : function (ev) {
-                                // Output paragraphs as <p>Text</p>.
-                                this.dataProcessor.writer.setRules( 'span', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'div', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'p', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'h1', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'h2', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'h3', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'h4', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'ul', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                                this.dataProcessor.writer.setRules( 'li', {
-                                    indent : false,
-                                    breakBeforeOpen : true,
-                                    breakAfterOpen : false,
-                                    breakBeforeClose : false,
-                                    breakAfterClose : true
-                                });
-                            }
-                        }
-                    };
-
-
-                    if (CKEDITOR.instances[id]) {
-                        try {
-                            CKEDITOR.instances[id].destroy(true);
-                        } catch (err) { }
-                        try {
-                            delete CKEDITOR.instances[id];
-                        } catch (err) { }
-                        //try {
-                        //    CKEDITOR.instances[id].remove(true);
-                        //} catch (err) { }
-                    }
-                    //ckeditors.push(id);
-                    //ckeditors = jQuery.unique(ckeditors);
-
-                    CKEDITOR.replace( id, editor_config );
-                    //-----------------------------------------------------------------------------------------
-
-                });
-            },
 
             // TODO:
             // * Add date format.
@@ -1163,11 +965,13 @@
                                 var param       = el.attr('data-param' + cnt) || el.attr('data-param' + cnt);
                                 var delay       = el.attr('data-delay' + cnt);
                                 var delay_class = el.attr('data-delay-class' + cnt);
+                                var type        = el.attr('data-type' + cnt);
                                 //jQuery.dump(e);
                                 if (url) {
                                     if (settings.debug) methods.debug($(this), 'add_tabs: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
                                     // Run ajax call...
                                     methods.ajax({
+                                        type   : type,
                                         url    : url,
                                         param  : param,
                                         target : target,
@@ -1212,11 +1016,13 @@
                                 var param       = el.attr('data-param' + cnt) || el.attr('data-param' + cnt);
                                 var delay       = el.attr('data-delay' + cnt);
                                 var delay_class = el.attr('data-delay-class' + cnt);
+                                var type        = el.attr('data-type' + cnt);
                                 //jQuery.dump(e);
                                 if (url) {
                                     if (settings.debug) methods.debug($(this), 'add_accordion: beforeActivate: ' + el + ' is showed!, ' + url + ' -> ' + target, 'action');
                                     // Run ajax call...
                                     methods.ajax({
+                                        type   : type,
                                         url    : url,
                                         param  : param,
                                         target : target,
@@ -1287,6 +1093,7 @@
                                 var delay_class = el.attr('data-delay-class' + cnt);
                                 var modal_close = el.attr('data-modal-close');
                                 var fn_complete = el.attr('data-complete' + cnt);
+                                var type        = el.attr('data-type' + cnt);
                                 //var required    = el.data('required');
 
                                 //jQuery.dump(e);
@@ -1294,6 +1101,7 @@
                                     if (settings.debug) methods.debug($(this), 'add_submit: ' + el + ' is submited!, ' + url + ' -> ' + target, 'action');
                                     // Run ajax call...
                                     methods.ajax({
+                                        type   : type,
                                         url    : url,
                                         param  : param + '&' + el.serialize(),
                                         target : target,
@@ -1328,7 +1136,8 @@
                 });
             },
 
-
+            // TODO:
+            // Add cnt to all params.
             add_autocomplete : function ($this, css_selector) {
                 if (settings.debug) methods.debug($this, 'add_autocomplete: ' + css_selector + ' .' + settings.class_autocomplete, 'info');
                 $(css_selector + ' .' + settings.class_autocomplete).each(function (index) {
@@ -1346,6 +1155,7 @@
                     var param       = el.attr('data-param');
                     var delay       = el.attr('data-delay');
                     var delay_class = el.attr('data-delay-class');
+                    var type        = el.attr('data-type');
 
                     if (source) {
                         $(el).autocomplete({
@@ -1365,6 +1175,7 @@
                                     if (settings.debug) methods.debug($(this), 'add_autocomplete: selected: ' + e + ' is submited!, ' + url + ' -> ' + target, 'action');
                                     // Run ajax call...
                                     methods.ajax({
+                                        type   : type,
                                         url    : url,
                                         param  : param + '&f=' + name + '&value=' + ui.item.id,
                                         target : target,
@@ -1554,6 +1365,7 @@
                         var width       = el.attr('data-width') || 500;
                         var delay       = el.attr('data-delay');
                         var delay_class = el.attr('data-delay-class');
+                        var type        = el.attr('data-type' + cnt);
                         var modal  = settings.class_modal + '_' + methods.random_number(10000);
                         var mask   = modal + '_mask';
 
@@ -1568,6 +1380,7 @@
                             if (settings.debug) methods.debug($(this), 'add_modal: ' + el + ' is modal!, url_part[1]=' + url_part[1] + ', ' + url + ' -> ' + modal, 'action');
                             // Run ajax call...
                             methods.ajax({
+                                type   : type,                                
                                 url    : url,
                                 param  : param,
                                 target : modal,
@@ -1723,6 +1536,7 @@
                     // Add offset as params.
                     var delay       = el.data('tooltip-delay');
                     var delay_class = el.data('tooltip-delay-class');
+                    var type        = el.attr('data-type' + cnt);
 
                     // Setting tooltip id to trigger el.
                     el.data('tooltip', tooltip);
@@ -1735,6 +1549,7 @@
                         if (settings.debug) methods.debug($(this), 'tooltip_show: ' + el + ' loading ajax content!, ' + url + ' -> ' + tooltip, 'action');
                         // Run ajax call...
                         methods.ajax({
+                            type   : type,
                             url    : url,
                             param  : param,
                             target : tooltip + '-window',
@@ -1883,12 +1698,14 @@
                     'last-check' : el.data('last-check'),
                     'last-load'  : el.data('last-load')
                 });
+                var type        = el.attr('data-type' + cnt);
 
                 //jQuery.dump(e);
                 if (url) {
                     if (settings.debug) methods.debug($(this), 'do_serverpush: ' + el + ' is serverpush!, ' + url + ' -> ' + target, 'action');
                     // Run ajax call...
                     methods.ajax({
+                        type   : type,
                         loader_hide : 1,
                         element  : el,
                         url      : url,

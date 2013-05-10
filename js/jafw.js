@@ -552,6 +552,7 @@
                                 var delay_class     = el.attr('data-delay-class' + cnt)     || el.parent().attr('data-delay-class' + cnt);
                                 var toggle_class    = el.attr('data-toggle-class' + cnt)    || el.parent().attr('data-toggle-class' + cnt);
                                 var remove_class    = el.attr('data-remove-class' + cnt)    || el.parent().attr('data-remove-class' + cnt);
+                                var remove          = el.attr('data-remove' + cnt)          || el.parent().attr('data-remove' + cnt);
                                 var toggle_target   = el.attr('data-toggle-target' + cnt)   || el.parent().attr('data-toggle-target' + cnt);
                                 var toggle_selector = el.attr('data-toggle-selector' + cnt) || el.parent().attr('data-toggle-selector' + cnt);
                                 var toggle_global   = el.attr('data-toggle-global' + cnt)   || el.parent().attr('data-toggle-global' + cnt);
@@ -574,6 +575,7 @@
                                     if (!delay_class) delay_class         = el.parent().attr('data-delay-class' + cnt);
                                     if (!toggle_class) toggle_class       = el.parent().attr('data-toggle-class' + cnt);
                                     if (!remove_class) remove_class       = el.parent().attr('data-remove-class' + cnt);
+                                    if (!remove) remove                   = el.parent().attr('data-remove' + cnt);
                                     if (!toggle_target) toggle_target     = el.parent().attr('data-toggle-target' + cnt);
                                     if (!toggle_selector) toggle_selector = el.parent().attr('data-toggle-selector' + cnt);
                                     if (!toggle_global) toggle_global     = el.parent().attr('data-toggle-global' + cnt);
@@ -596,6 +598,7 @@
                                     if (!delay_class) delay_class         = el.closest(bubble_up).attr('data-delay-class' + cnt);
                                     if (!toggle_class) toggle_class       = el.closest(bubble_up).attr('data-toggle-class' + cnt);
                                     if (!remove_class) remove_class       = el.closest(bubble_up).attr('data-remove-class' + cnt);
+                                    if (!remove) remove                   = el.closest(bubble_up).attr('data-remove' + cnt);
                                     if (!toggle_target) toggle_target     = el.closest(bubble_up).attr('data-toggle-target' + cnt);
                                     if (!toggle_selector) toggle_selector = el.closest(bubble_up).attr('data-toggle-selector' + cnt);
                                     if (!toggle_global) toggle_global     = el.closest(bubble_up).attr('data-toggle-global' + cnt);
@@ -615,7 +618,6 @@
                                 }
                                 if (settings.debug && fn_complete) methods.debug($this, 'add_click: fn_complete=' + fn_complete, 'info');
 
-                            
                                 // Remove all classes for matching css selector.
                                 if (remove_class) {
                                     $(remove_class).removeClass(toggle_class);
@@ -671,9 +673,17 @@
                                 }
 
                                 // Remove element after 1000 ms.
-                                var remove = el.attr('data-remove' + cnt);
                                 if (remove) {
-                                    el.fadeOut(1000, function () {
+                                    var remove_target = el;
+                                    if (remove == 'true') {
+                                        remove_target = el.parent();
+                                    } else if (remove == 'this') {
+                                        remove_target = el;
+                                    } else {
+                                        remove_target = el.find(remove);
+                                    }
+
+                                    remove_target.fadeOut(1000, function () {
                                         $(this).remove();
                                     });
                                 }
@@ -1167,8 +1177,9 @@
                                 if (settings.debug) methods.debug($this, 'add_autocomplete: selected: ' + ui.item.id + ', ' + ui.item.value + ' -> ' + append + ', form=' + e.val(), 'info');
                                 e.val('');
                                 if (append) {
-                                    var dta = data.replace(/{value}/g, ui.item.id);
-                                    $('<span class="'+class_name+'" '+dta+'>'+ui.item.value+'</span>').prependTo('#' + append);
+                                    var dta = data.replace(/\{id\}/g, ui.item.id);
+                                    dta = dta.replace(/\{value\}/g, ui.item.value);
+                                    $('<span class="' + class_name + '">' + ui.item.value + ' <i data-click="true" class="icon-remove" ' + dta + '></i></span>').prependTo('#' + append);
                                     $('#' + append).scrollTop(0);
                                 }
                                 if (url && target) {
@@ -1177,7 +1188,7 @@
                                     methods.ajax({
                                         type   : type,
                                         url    : url,
-                                        param  : param + '&f=' + name + '&value=' + ui.item.id,
+                                        param  : param + '&f=' + name + '&value=' + ui.item.id + '&value_text=' + ui.item.value,
                                         target : target,
                                         delay  : delay,
                                         delay_class : delay_class
